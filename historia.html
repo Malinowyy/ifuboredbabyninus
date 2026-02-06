@@ -1,0 +1,36 @@
+<!-- historia.html -->
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Historia pewnej znajomości</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="page page--story">
+  <header class="topbar topbar--green">
+    <div class="topbar__title">Hej misiu, co tam?</div>
+    <nav class="topbar__nav">
+      <a class="btn btn--pill btn--dark" href="zegar.html">Zegar świata</a>
+      <a class="btn btn--pill btn--dark" href="historia.html" aria-current="page">Historia pewnej znajomości</a>
+      <a class="btn btn--pill btn--dark" href="hugs.html">Free hugs</a>
+    </nav>
+  </header>
+
+  <main class="content content--center">
+    <div class="terminal" role="region" aria-label="Terminal">
+      <div class="terminal__bar">
+        <span class="dot dot--r"></span>
+        <span class="dot dot--y"></span>
+        <span class="dot dot--g"></span>
+        <span class="terminal__title">cmd.exe — green vibes</span>
+      </div>
+
+      <pre class="terminal__body"><code id="terminalText"></code><span class="cursor" aria-hidden="true">█</span></pre>
+    </div>
+  </main>
+
+  <script src="main.js"></script>
+  <script src="terminal.js"></script>
+</body>
+</html>
