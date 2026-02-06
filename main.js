@@ -40,25 +40,78 @@
     window.setInterval(render, 250);
   }
 
-  // Free hugs: zmiana obrazka na 1 sekundę po kliknięciu
-  const hugImg = document.getElementById("hugImg");
-  const hugBtn = document.getElementById("hugBtn");
-  if (hugImg && hugBtn) {
-    const img1 = "hug1.jpg";
-    const img2 = "hug2.jpg";
+  // Free hugs: odtwarzanie raz, powrót do pierwszej klatki, licznik uruchomień
+(function () {
+  const vid = document.getElementById("hugVid");
+  const btn = document.getElementById("hugPlayBtn");
+  const counterEl = document.getElementById("hugCount");
+  if (!vid || !btn || !counterEl) return;
 
-    let busy = false;
-    hugBtn.addEventListener("click", () => {
-      if (busy) return;
-      busy = true;
+  const gifUrl = "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTh3MDI5aHJqMmV3a2lxd3d4MWI4cDVvbzFkcXJ4NnJpaGFraXk5MSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1JmGiBtqTuehfYxuy9/giphy.gif";
 
-      const prev = hugImg.getAttribute("src") || img1;
-      hugImg.setAttribute("src", img2);
+  // Giphy zazwyczaj ma MP4 pod tą samą ścieżką.
+  const mp4Url = gifUrl.replace(/giphy\.gif$/, "giphy.mp4");
 
-      window.setTimeout(() => {
-        hugImg.setAttribute("src", prev === img2 ? img1 : img1);
-        busy = false;
-      }, 1000);
-    });
-  }
+  // (Opcjonalnie) “poster” jako pierwsza klatka – często działa jako giphy_s.gif.
+  // Jeśli nie zadziała, i tak ustawimy first frame przez currentTime=0 po załadowaniu metadanych.
+  const stillUrl = gifUrl.replace(/giphy\.gif$/, "giphy_s.gif");
+
+  // Ustaw źródło video
+  vid.muted = true;
+  vid.loop = false;
+  vid.playsInline = true;
+  vid.setAttribute("poster", stillUrl);
+
+  const src = document.createElement("source");
+  src.src = mp4Url;
+  src.type = "video/mp4";
+  vid.appendChild(src);
+
+  let hugs = 0;
+  let busy = false;
+
+  const freezeToStart = () => {
+    // “Zamrożenie” na pierwszej klatce
+    vid.pause();
+    try {
+      vid.currentTime = 0;
+    } catch (_) {
+      // czasem blokuje przed metadata; wtedy dociśniemy po loadedmetadata
+    }
+  };
+
+  vid.addEventListener("loadedmetadata", () => {
+    // Upewnij się, że startujemy od 0 i stoimy
+    try { vid.currentTime = 0; } catch (_) {}
+    vid.pause();
+  });
+
+  vid.addEventListener("ended", () => {
+    hugs += 1;
+    counterEl.textContent = String(hugs);
+
+    freezeToStart();
+    busy = false;
+    btn.disabled = false;
+  });
+
+  btn.addEventListener("click", async () => {
+    if (busy) return;
+    busy = true;
+    btn.disabled = true;
+
+    // Odpal raz
+    try {
+      // Zawsze zaczynaj od początku
+      try { vid.currentTime = 0; } catch (_) {}
+      await vid.play();
+    } catch (e) {
+      // Jeśli autoplay/gesture problem, odblokuj UI
+      busy = false;
+      btn.disabled = false;
+    }
+  });
+
+  // Dla pewności: na wejściu “zamróź”
+  freezeToStart();
 })();
