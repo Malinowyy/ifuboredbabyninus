@@ -39,6 +39,19 @@
     render();
     window.setInterval(render, 250);
   }
+  // Zegar świata: dopasuj długość ścieżki serca do stroke-dash (żeby nie było "kreski")
+(function () {
+  const path = document.querySelector(".heart__path");
+  if (!path) return;
+
+  try {
+    const len = path.getTotalLength();
+    path.style.setProperty("--pathLen", String(len));
+  } catch (_) {
+    // jeśli coś nietypowego w przeglądarce, zostanie fallback z CSS
+  }
+})();
+
 
 // Free hugs: lokalny hug.mp4, play raz, freeze na pierwszej klatce, licznik
 (function () {
