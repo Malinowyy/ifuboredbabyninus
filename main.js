@@ -8,28 +8,31 @@
     window.setTimeout(() => el.classList.remove("btn--clicked"), 140);
   });
 
-  // Zegar świata: licz od 29.09.2025 18:00 do teraz
-(function () {
+// Timer na stronie zegar.html (odliczanie od 29.09.2025 18:00)
+document.addEventListener("DOMContentLoaded", () => {
   const timeEl = document.getElementById("timeSince");
   if (!timeEl) return;
 
-  const start = new Date(2025, 8, 29, 18, 0, 0); // 8 = wrzesień
+  const start = new Date(2025, 8, 29, 18, 0, 0); // 8 = wrzesień (0-11)
 
   const pad2 = (n) => String(n).padStart(2, "0");
 
   const render = () => {
     const now = new Date();
-    let diffMs = now - start;
+    let diffMs = now.getTime() - start.getTime();
 
     const isFuture = diffMs < 0;
     diffMs = Math.abs(diffMs);
 
     const totalSeconds = Math.floor(diffMs / 1000);
     const seconds = totalSeconds % 60;
+
     const totalMinutes = Math.floor(totalSeconds / 60);
     const minutes = totalMinutes % 60;
+
     const totalHours = Math.floor(totalMinutes / 60);
     const hours = totalHours % 24;
+
     const days = Math.floor(totalHours / 24);
 
     const prefix = isFuture ? "Do tej chwili pozostało: " : "Minęło: ";
@@ -38,21 +41,7 @@
 
   render();
   window.setInterval(render, 250);
-})();
-
-  // Zegar świata: dopasuj długość ścieżki serca do stroke-dash (żeby nie było "kreski")
-(function () {
-  const path = document.querySelector(".heart__path");
-  if (!path) return;
-
-  try {
-    const len = path.getTotalLength();
-    path.style.setProperty("--pathLen", String(len));
-  } catch (_) {
-    // jeśli coś nietypowego w przeglądarce, zostanie fallback z CSS
-  }
-})();
-
+});
 
 // Free hugs: lokalny hug.mp4, play raz, freeze na pierwszej klatce, licznik
 (function () {
