@@ -146,46 +146,45 @@ body{
   position: relative;
   padding: 28px;
 }
+
 .heart{
-  width: min(680px, 86vw);
+  width: min(780px, 90vw);  /* większe */
   height: auto;
+  display:block;
 }
+
 .heart__path{
   fill: none;
   stroke: var(--red);
-  stroke-width: 16;
+  stroke-width: 26; /* grubsze */
   stroke-linecap: round;
   stroke-linejoin: round;
 
-  stroke-dasharray: 2000;
-  stroke-dashoffset: 2000;
-  animation: draw 2.2s ease forwards;
+  /* długość ścieżki ustawimy w JS jako --pathLen */
+  stroke-dasharray: var(--pathLen, 2000);
+  stroke-dashoffset: var(--pathLen, 2000);
+
+  /* 3s rysuje, 2s pauza, 3s znika, 1s pauza */
+  animation: heartCycle 9s ease-in-out infinite;
 }
-@keyframes draw{
-  to{ stroke-dashoffset: 0; }
+
+@keyframes heartCycle{
+  /* start: niewidoczne (dashoffset = len) */
+  0%   { stroke-dashoffset: var(--pathLen, 2000); }
+
+  /* rysowanie przez 3 sekundy -> 3/9 = 33.333% */
+  33.333% { stroke-dashoffset: 0; }
+
+  /* pauza 2 sekundy -> (3+2)/9 = 55.555% */
+  55.555% { stroke-dashoffset: 0; }
+
+  /* znikanie przez 3 sekundy -> (3+2+3)/9 = 88.888% */
+  88.888% { stroke-dashoffset: var(--pathLen, 2000); }
+
+  /* pauza 1 sekunda do końca */
+  100% { stroke-dashoffset: var(--pathLen, 2000); }
 }
-.heart-time{
-  position:absolute;
-  width: min(520px, 78vw);
-  text-align:center;
-  padding: 16px 18px;
-  border-radius: 18px;
-  background: rgba(255,255,255,.88);
-  border: 1px solid rgba(0,0,0,.08);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(6px);
-}
-.heart-time__label{
-  font-weight: 800;
-  font-size: 13px;
-  opacity: .8;
-  margin-bottom: 6px;
-}
-.heart-time__value{
-  font-weight: 900;
-  font-size: 22px;
-  letter-spacing: .2px;
-}
+
 
 /* Historia: czarne tło + terminal */
 .page--story{
