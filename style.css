@@ -68,6 +68,21 @@ body{
   flex-wrap: wrap;
   justify-content:flex-end;
 }
+.topbar__titleLink{
+  font-weight: 800;
+  color:#fff;
+  letter-spacing: .2px;
+  font-size: 18px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.topbar__titleLink:hover{
+  filter: brightness(1.08);
+}
+.topbar__titleLink:active{
+  transform: translateY(1px);
+}
+
 
 /* Buttons */
 .btn{
