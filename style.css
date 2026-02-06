@@ -55,6 +55,43 @@ body{
 }
 .topbar--red{ background: var(--red); }
 .topbar--green{ background: var(--green); }
+/* Topbar: przycisk "Hej misiu, co tam?" */
+.topbar__homeBtn{
+  background: rgba(255,255,255,.18);
+  color: #fff;
+  border: none;
+  border-radius: 90px;
+  padding: 10px 16px;
+
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: .2px;
+
+  cursor: pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  transition: 
+    transform .12s ease,
+    background .12s ease,
+    box-shadow .12s ease,
+    filter .12s ease;
+}
+
+.topbar__homeBtn:hover{
+  background: rgba(255,255,255,.28);
+  filter: brightness(1.05);
+}
+
+.topbar__homeBtn:active{
+  transform: translateY(1px) scale(0.98);
+}
+
+.topbar__homeBtn:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.35);
+}
 
 .topbar__title{
   font-weight: 800;
