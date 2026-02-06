@@ -7,12 +7,14 @@
   <title>Zegar świata</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body class="page page--default">
   <header class="topbar topbar--red">
-    <button class="topbar__homeBtn" onclick="location.href='index.html'">
-  Hej misiu, co tam?
-</button>
+    <button class="topbar__homeBtn" onclick="location.href='index.html'" type="button">
+      Hej misiu, co tam?
+    </button>
 
+    <nav class="topbar__nav">
       <a class="btn btn--pill" href="zegar.html" aria-current="page">Zegar świata</a>
       <a class="btn btn--pill" href="historia.html">Historia pewnej znajomości</a>
       <a class="btn btn--pill" href="hugs.html">Free hugs</a>
@@ -20,35 +22,34 @@
   </header>
 
   <main class="content content--full">
-  <div class="heart-wrap">
-    <svg class="heart" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet" aria-label="Serce z czasem">
-      <defs>
-        <!-- Subtelna tekstura "fluffy/velvet", nie mutant -->
-        <filter id="softFluff" x="-10%" y="-10%" width="120%" height="120%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="1" seed="3" result="n"/>
-          <feDisplacementMap in="SourceGraphic" in2="n" scale="0.9" />
-          <feGaussianBlur stdDeviation="0.25"/>
-        </filter>
-      </defs>
+    <div class="heart-wrap">
+      <svg class="heart" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet" aria-label="Serce z czasem">
+        <defs>
+          <!-- Subtelna tekstura "fluffy/velvet", nie mutant -->
+          <filter id="softFluff" x="-10%" y="-10%" width="120%" height="120%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="1" seed="3" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="0.9" />
+            <feGaussianBlur stdDeviation="0.25"/>
+          </filter>
+        </defs>
 
-      <path
-        class="heart__path"
-        pathLength="1000"
-        filter="url(#softFluff)"
-        d="M256 448s-36.4-20.2-73.6-45.6C110.7 360.8 48 302.3 48 215.7
-        48 145.4 102.6 96 172.5 96c34.7 0 68 16.2 83.5 41.7C271.5 112.2 304.8 96 339.5 96
-        409.4 96 464 145.4 464 215.7c0 86.6-62.7 145.1-134.4 186.7C292.4 427.8 256 448 256 448z"
-      />
-    </svg>
+        <path
+          class="heart__path"
+          pathLength="1000"
+          filter="url(#softFluff)"
+          d="M256 448s-36.4-20.2-73.6-45.6C110.7 360.8 48 302.3 48 215.7
+          48 145.4 102.6 96 172.5 96c34.7 0 68 16.2 83.5 41.7C271.5 112.2 304.8 96 339.5 96
+          409.4 96 464 145.4 464 215.7c0 86.6-62.7 145.1-134.4 186.7C292.4 427.8 256 448 256 448z"
+        />
+      </svg>
 
-    <div class="heart-time">
-      <div class="heart-time__label">Czas od 29 września 2025, 18:00</div>
-      <div id="timeSince" class="heart-time__value">—</div>
+      <div class="heart-time">
+        <div class="heart-time__label">Czas od 29 września 2025, 18:00</div>
+        <div id="timeSince" class="heart-time__value">—</div>
+      </div>
     </div>
-  </div>
-</main>
+  </main>
 
-
-  <script src="main.js"></script>
+  <script src="main.js" defer></script>
 </body>
 </html>
