@@ -393,4 +393,18 @@ body{
   font-size: 28px;
   letter-spacing: .3px;
 }
+/* FIX: topbar układ (żeby menu zawsze było po prawej) */
+.topbar{
+  justify-content: flex-start !important;
+  gap: 16px;
+}
+
+.topbar__nav{
+  margin-left: auto !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  flex-wrap: nowrap;
+  gap: 12px;
+}
 
