@@ -60,7 +60,7 @@
     "=> A potem nagle: hello.",
     "=> I jakoś już zostało.",
     "",
-    "C:\\Users\\misiu> "
+    ""
   ];
   const bootText = bootLines.join("\n");
 
