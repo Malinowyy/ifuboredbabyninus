@@ -18,56 +18,80 @@
     return;
   }
 
-  // =========================
-  // 1) KONFIG: HASŁA + TEKSTY
-  // =========================
-  // UWAGA: klucze = to, co użytkownik wpisuje
-  const NORMAL_COMMANDS = {
-    "nigger": "Tu beda jakies slodkie wiadomosci dla ninki\n",
-    "haslo2": "TU wpiszesz wiadomość dla haslo2\n",
-    "haslo3": "...\n",
-    "haslo4": "...\n",
-    "haslo5": "...\n",
-    "haslo6": "...\n",
-    "haslo7": "...\n",
-    "haslo8": "...\n",
-    "haslo9": "...\n",
-    "haslo10": "...\n",
-    "haslo11": "...\n",
-    "haslo12": "...\n",
-    "haslo13": "...\n",
-    "haslo14": "...\n",
-  };
+// =========================
+// 1) KONFIG: SLOTY + ALIASY
+// =========================
 
-  const SUPER_COMMANDS = {
-    "gigga nigga": "SUPER_MESSAGE_1\n", // <- wpisz tu swoją, nieobraźliwą treść
-    "super2": "SUPER WIADOMOŚĆ 2 — wpisz swoją\n",
-  };
+// Sloty (ID) -> wiadomość
+const NORMAL_SLOTS = {
+  haslo1: "Tu wpiszesz wiadomość dla haslo1\n",
+  haslo2: "TU wpiszesz wiadomość dla haslo2\n",
+  haslo3: "...\n",
+  haslo4: "...\n",
+  haslo5: "...\n",
+  haslo6: "...\n",
+  haslo7: "...\n",
+  haslo8: "...\n",
+  haslo9: "...\n",
+  haslo10: "...\n",
+  haslo11: "...\n",
+  haslo12: "...\n",
+  haslo13: "...\n",
+  haslo14: "...\n",
+};
 
-  const NORMAL_TOTAL = 14;
-  const SUPER_TOTAL = 2;
+const SUPER_SLOTS = {
+  super1: "SUPER_MESSAGE_1\n",
+  super2: "SUPER WIADOMOŚĆ 2 — wpisz swoją\n",
+};
+
+// Co użytkownik wpisuje -> do którego slotu to należy
+// (tu ustawiasz “prawdziwe komendy”)
+const INPUT_TO_SLOT = {
+  // normalne:
+  "haslo1": "haslo1",
+  "haslo2": "haslo2",
+  "haslo3": "haslo3",
+  "haslo4": "haslo4",
+  "haslo5": "haslo5",
+  "haslo6": "haslo6",
+  "haslo7": "haslo7",
+  "haslo8": "haslo8",
+  "haslo9": "haslo9",
+  "haslo10": "haslo10",
+  "haslo11": "haslo11",
+  "haslo12": "haslo12",
+  "haslo13": "haslo13",
+  "haslo14": "haslo14",
+
+  // super:
+  "super1": "super1",
+  "super2": "super2",
+};
+
 // Stałe pozycje w tabeli (0-based index)
-  const NORMAL_POSITIONS = {
-    haslo1: 0,
-    haslo2: 1,
-    haslo3: 2,
-    haslo4: 3,
-    haslo5: 4,
-    haslo6: 5,
-    haslo7: 6,
-    haslo8: 7,
-    haslo9: 8,
-    haslo10: 9,
-    haslo11: 10,
-    haslo12: 11,
-    haslo13: 12,
-    haslo14: 13,
-  };
-  
-  const SUPER_POSITIONS = {
-    super1: 14,
-    super2: 15,
-  };
+const SLOT_POSITION = {
+  haslo1: 0,
+  haslo2: 1,
+  haslo3: 2,
+  haslo4: 3,
+  haslo5: 4,
+  haslo6: 5,
+  haslo7: 6,
+  haslo8: 7,
+  haslo9: 8,
+  haslo10: 9,
+  haslo11: 10,
+  haslo12: 11,
+  haslo13: 12,
+  haslo14: 13,
+  super1: 14,
+  super2: 15,
+};
+
+const NORMAL_TOTAL = 14;
+const SUPER_TOTAL = 2;
+
 
   // =========================
   // 2) STARTOWY TEKST (TYPING)
