@@ -48,8 +48,8 @@
   // Co użytkownik wpisuje -> do którego slotu to należy
   const INPUT_TO_SLOT = {
     // normalne:
-    "haslo1": "haslo1",
-    "haslo2": "haslo2",
+    "nigger": "wiadomosc testowa elo",
+    "nigga": "dziala ez",
     "haslo3": "haslo3",
     "haslo4": "haslo4",
     "haslo5": "haslo5",
@@ -64,7 +64,7 @@
     "haslo14": "haslo14",
 
     // super:
-    "super1": "super1",
+    "gigga nigga": "XDDDDDDDD",
     "super2": "super2",
   };
 
@@ -95,14 +95,11 @@
   // 2) STARTOWY TEKST (TYPING)
   // =========================
   const bootLines = [
-    "C:\\Users\\misiu> uruchom_historia.exe",
+    "C:\\Users\\misia> uruchom_historia.exe",
     "",
     "[OK] Ładowanie wspomnień...",
     "[OK] Synchronizacja spojrzeń...",
     "[OK] Sprawdzanie czy to przypadek czy przeznaczenie...",
-    "",
-    "=> A potem nagle: hello.",
-    "=> I jakoś już zostało.",
     "",
     ""
   ];
