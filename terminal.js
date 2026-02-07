@@ -24,8 +24,8 @@
 
   // Sloty (ID) -> wiadomość
   const NORMAL_SLOTS = {
-    haslo1: "Tu wpiszesz wiadomość dla haslo1\n",
-    haslo2: "TU wpiszesz wiadomość dla haslo2\n",
+    haslo1: "Wiadomość testowa elo\n",
+    haslo2: "Chyba działa ez\n",
     haslo3: "...\n",
     haslo4: "...\n",
     haslo5: "...\n",
@@ -41,15 +41,15 @@
   };
 
   const SUPER_SLOTS = {
-    super1: "SUPER_MESSAGE_1\n",
+    super1: "XDDDDDDDDDD\n",
     super2: "SUPER WIADOMOŚĆ 2 — wpisz swoją\n",
   };
 
   // Co użytkownik wpisuje -> do którego slotu to należy
   const INPUT_TO_SLOT = {
     // normalne:
-    "nigger": "wiadomosc testowa elo",
-    "nigga": "dziala ez",
+    "nigger": "haslo1",
+    "nigga": "haslo2",
     "haslo3": "haslo3",
     "haslo4": "haslo4",
     "haslo5": "haslo5",
@@ -64,7 +64,7 @@
     "haslo14": "haslo14",
 
     // super:
-    "gigga nigga": "XDDDDDDDD",
+    "gigga nigga": "super1",
     "super2": "super2",
   };
 
