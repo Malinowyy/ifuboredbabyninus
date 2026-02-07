@@ -23,7 +23,7 @@
   // =========================
   // UWAGA: klucze = to, co użytkownik wpisuje
   const NORMAL_COMMANDS = {
-    "nigger": "test\n",
+    "nigger": "Tu beda jakies slodkie wiadomosci dla ninki\n",
     "haslo2": "TU wpiszesz wiadomość dla haslo2\n",
     "haslo3": "...\n",
     "haslo4": "...\n",
