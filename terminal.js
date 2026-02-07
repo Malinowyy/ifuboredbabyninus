@@ -227,10 +227,8 @@
     step();
   };
 
-  const normalize = (s) => s.trim().toLowerCase();
-
   const cmdNotFound = (raw) =>
-    `'${raw}' is not recognized as an internal or external command,\noperable program or batch file.\n\n`;
+    `C:\Users\misiu> '${raw}' Command not found.\n\n`;
 
   const setPromptVisible = (visible) => {
     promptRow.style.display = visible ? "flex" : "none";
