@@ -97,11 +97,13 @@
   const bootLines = [
     "C:\\Users\\misia> uruchom_historia.exe",
     "",
-    "[OK] Ładowanie wspomnień...",
-    "[OK] Synchronizacja spojrzeń...",
-    "[OK] Sprawdzanie czy to przypadek czy przeznaczenie...",
+    "Loading memories... [OK]",
+    "Checking who was right... [ERROR]",
+    "Nina is always right",
+    "Checking who was right... [OK]",
     "",
-    ""
+    "Wszystko zaczęło się od pewnej huśtawki",
+    "tu bedzie jakis ladny wzruszajacy tekst"
   ];
   const bootText = bootLines.join("\n");
 
