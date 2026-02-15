@@ -1,7 +1,7 @@
 // terminal.js
 (function () {
   const out = document.getElementById("terminalText");
-  const input = document.getElementById("terminalInput"); // contenteditable
+  const input = document.getElementById("terminalInput");
   const caret = document.getElementById("caret");
   const promptRow = document.getElementById("promptRow");
   const promptLabel = document.getElementById("promptLabel");
@@ -16,9 +16,7 @@
   if (
     !out || !input || !caret || !promptRow || !promptLabel || !terminalBody ||
     !normalCounterEl || !superCounterEl || !tableBody
-  ) {
-    return;
-  }
+  ) return;
 
   const LS_KEY_FOUND = "misiu_found_slots_v1";
   const LS_KEY_ALLDONE = "misiu_alldone_unlocked_v1";
@@ -27,63 +25,44 @@
   // 1) KONFIG: SLOTY + ALIASY
   // =========================
 
-  // Komendy spoza tabeli/liczników (po odblokowaniu wszystkiego)
   const SPECIAL_COMMANDS = {
     "all done": "TU_WPISZ_WLASNA_WIADOMOSC_PO_ALL_DONE\n",
   };
 
-  // Definicje slotów w kolejności jak podałeś:
-  // - label: co ma być w tabeli
-  // - msg: co ma się wypisać w terminalu
-  // - type: "normal" lub "super"
+  // Sloty w kolejności w tabeli (po zmianach: merged maple/poniedziałek, usunięty sylwester, dodany całus/buziak)
   const SLOT_DEFS = [
-    // 1
-    { id: "haslo1",  type: "normal", label: "Igrzyska śmierci w heliosie", msg: "wiadomosc1\n" },
-    // 2
-    { id: "haslo2",  type: "normal", label: "Oaza w sandomierzu", msg: "wiadomosc2\n" },
-    // 3
-    { id: "haslo3",  type: "normal", label: "Osiemnastka agaty", msg: "wiadomosc3\n" },
-    // 4
-    { id: "haslo4",  type: "normal", label: "KODA", msg: "wiadomosc4\n" },
-    // 5
-    { id: "haslo5",  type: "normal", label: "Kałków oaza", msg: "wiadomosc5\n" },
-    // 6
+    { id: "haslo1",  type: "normal", label: "Igrzyska śmierci w heliosie", msg: "To właśnie tu mam pierwsze wspomnienie z tobą.\n Przyszedłem do kina z nowo poznaną paczką przyjaciół. Pamiętam to zaspanie w tym kinie i szok, że ktoś mnie rozpoznał hahah.\n Kto by wtedy przypuszczał...\n" },
+    { id: "haslo2",  type: "normal", label: "Oaza w sandomierzu", msg: "Ah... Dla mnie tu zaczęła się nasza relacja.\n " },
+    { id: "haslo3",  type: "normal", label: "Osiemnastka agaty", msg: "To było mocne haha. Jeszcze wtedy nie wiedziałem, że cię pokochałem, ale coś mnie do ciebie ciągnęło.\n Natomiast pamiętam, że już irytowała mnie obecność Antka obok ciebie i z jakiegoś powodu mu zazdrościłem. \n Nie zastanawiałem się nad tym jednak dłużej\n Pamiętam, jak się stresowałem, bo to przecież pierwsza osiemnastka na której byłem w życiu. \n I pamiętam jak mnie w tym wspierałaś...\n" },
+    { id: "haslo4",  type: "normal", label: "KODA", msg: "Na oko - ze 3 miesiąc od zauroczenia się w tobie. Pierwszy od zakochania się.\n Z każdym dniem coraz mocniej uświadamiałem sobie, że odkochanie się nie będzie takie proste. Wszystko się nasilało, jak codziennie widzieliśmy się, modliliśmy się czy jedliśmy. \n Wtedy też pobiłem ścianę z tej frustracji, dlaczego jest tak a nie inaczej. I wtedy też dowiedziała się Aga. \n Pamiętam jak krytykowałem w głowie to, jak antek się zachowywał wokół ciebie. Jak (według, wtedy, mnie) miernie okazywał ci tę miłość. Gdybym tylko miał kiedyś szansę pokazać ci na jaką miłość zasługujesz...\n Ale pewnie nigdy się nie dowiesz. Nie wiem co by się musiało wydarzyć, żebyśmy byli razem...\n" },
+    { id: "haslo5",  type: "normal", label: "Kałków oaza", msg: "Tutaj już powoli myślałem, że udało mi się odkochać. Wielki sukces! - no, tak starałem sobie wmawiać. Pseudo - związek z Julką uświadamiał mi jednak, jak bardzo ty jesteś wyjątkowa.\n Jak bardzo idealną dziewczyną jesteś. Jak bardzo nie chce już nikogo innego szukać, skoro poznałem ciebie. Pamiętam jak wmawiałem sobie, że aby ostatecznie zamknąć nasz rozdział, będzie wyznanie ci, że kiedyś się w tobie zakochałem.\n Nie mogłem powiedzieć przecież, ze to nadal aktualne, bo pewnie byś mnie zablokowała hahah. Ale liczyłem, że może wtedy tłumione emocje znajdą ujście.\n Popłąkałaś sie. \n A ja poczułem złość\n Jakim cudem nikt cię nie wspierał. Czemu zostałaś sama. Ogarnęła mnie złość. NIE ZASŁUŻYŁAŚ NA TO!!.\n Obiecałem sobie, że nie wtrącam się w twój ówczesny związek, bo kocham cię na tyle, że chce, żebyś była szczęśliwa. Nawet kosztem moich emocji. \nAle wtedy właśnie uświadomiłem sobie, że nie byłaś.\n" },
     { id: "haslo6",  type: "normal", label: "The antek thing...", msg: "wiadomosc6\n" },
-    // 7
     { id: "haslo7",  type: "normal", label: "Osiemnastka Maliny!", msg: "wiadomosc7\n" },
-    // 8
     { id: "haslo8",  type: "normal", label: "Pierwszy raz u mnie na caaaały dzień!", msg: "wiadomosc8\n" },
-    // 9
     { id: "haslo9",  type: "normal", label: "Bubbletea (mój pierwszy pretekst)", msg: "wiadomosc9\n" },
-    // 10
-    { id: "haslo10", type: "normal", label: "Piosenkaaa", msg: "wiadomosc10\n" },
-    // 11
-    { id: "haslo11", type: "normal", label: "Pewnego pamiętnego poniedziałku...", msg: "wiadomosc11\n" },
-    // 12
-    { id: "haslo12", type: "normal", label: "Candle!", msg: "wiadomosc12\n" },
-    // 13
+
+    // SCALONE: maple leaf + pamiętny poniedziałek
+    { id: "haslo10", type: "normal", label: "Pewnego pamiętnego poniedziałku... Piosenka!", msg: "wiadomosc10\n" },
+
+    { id: "haslo11", type: "normal", label: "Candle!", msg: "wiadomosc11\n" },
+
+    // DODANE: całus/buziak
+    { id: "haslo12", type: "normal", label: "Pierwszy pocałunek", msg: "wiadomosc12\n" },
+
     { id: "haslo13", type: "normal", label: "Dziękuję! hahah", msg: "wiadomosc13\n" },
-    // 14
     { id: "haslo14", type: "normal", label: "Bydgoszcz jeden", msg: "wiadomosc14\n" },
-
-    // 15
     { id: "haslo15", type: "normal", label: "Warszawa", msg: "wiadomosc15\n" },
-    // 16
     { id: "haslo16", type: "normal", label: "No contact", msg: "wiadomosc16\n" },
-    // 17
-    { id: "haslo17", type: "normal", label: "Sylwester", msg: "wiadomosc17\n" },
-    // 18
-    { id: "haslo18", type: "normal", label: "Bydgoszcz dwa", msg: "wiadomosc18\n" },
+    { id: "haslo17", type: "normal", label: "Bydgoszcz dwa", msg: "wiadomosc17\n" },
 
-    // SUPER (2)
-    { id: "super1",  type: "super",  label: "Liseeek", msg: "wiadomosc19\n" },
-    { id: "super2",  type: "super",  label: "Kształcenie słuchu", msg: "wiadomosc20\n" },
+    // SUPER
+    { id: "super1",  type: "super",  label: "Liseeek", msg: "wiadomosc18\n" },
+    { id: "super2",  type: "super",  label: "Kształcenie słuchu", msg: "wiadomosc19\n" },
   ];
 
-  // Alias listy (po ukośniku) -> ten sam slot
-  // Wpisuj tu tylko hasła/aliasy – mapowanie robi się automatycznie poniżej
+  // Alias listy -> slot
   const ALIASES = [
-    { slot: "haslo1",  words: ["kino", "igrzyska", "helios"] },
+    { slot: "haslo1",  words: ["kino", "igrzyska", "helios", "igrzyska śmierci", "igrzyska smierci"] },
     { slot: "haslo2",  words: ["sandomierz", "trójka", "trojka"] },
     { slot: "haslo3",  words: ["agata", "osiemnastka agi"] },
     { slot: "haslo4",  words: ["koda", "sciana", "ściana"] },
@@ -92,29 +71,33 @@
     { slot: "haslo7",  words: ["osiemnastka", "impreza"] },
     { slot: "haslo8",  words: ["badminton", "lego", "kpop demon hunters", "jedlanka"] },
     { slot: "haslo9",  words: ["bubble tea", "bubbletea", "radom", "wyjście", "wyjscie"] },
-    { slot: "haslo10", words: ["like a maple leaf", "piosenka", "maple leaf"] },
-    { slot: "haslo11", words: ["pamiętny poniedziałek", "pamietny poniedzialek", "poniedziałek", "poniedzialek"] },
-    { slot: "haslo12", words: ["candle"] },
+
+    // SCALONE: maple leaf + piosenka + pamiętny poniedziałek
+    { slot: "haslo10", words: ["like a maple leaf", "piosenka", "maple leaf", "pamiętny poniedziałek", "pamietny poniedzialek", "poniedziałek", "poniedzialek"] },
+
+    { slot: "haslo11", words: ["candle"] },
+
+    // NOWE: całus/buziak
+    { slot: "haslo12", words: ["całus", "calus", "buziak"] },
+
     { slot: "haslo13", words: ["kocham cię", "kocham cie", "dziekuje", "dziękuję"] },
     { slot: "haslo14", words: ["bydgoszcz", "bydgoszcz jeden"] },
-
     { slot: "haslo15", words: ["warszawa"] },
     { slot: "haslo16", words: ["no contact"] },
-    { slot: "haslo17", words: ["sylwester"] },
-    { slot: "haslo18", words: ["bydgoszcz dwa"] },
+    { slot: "haslo17", words: ["bydgoszcz dwa"] },
 
     // SUPER
-    { slot: "super1", words: ["lisek", "wiewiorka", "wiewiórka"] },
-    { slot: "super2", words: ["kształcenie słuchu", "ksztalcenie sluchu"] },
+    { slot: "super1",  words: ["lisek", "wiewiorka", "wiewiórka"] },
+    { slot: "super2",  words: ["kształcenie słuchu", "ksztalcenie sluchu"] },
   ];
 
-  // Szybkie mapy do użycia w kodzie
+  // mapy
   const SLOT_POSITION = {};
   const SLOT_LABEL = {};
   const SLOT_MSG = {};
   const SLOT_TYPE = {};
   for (let i = 0; i < SLOT_DEFS.length; i += 1) {
-    SLOT_POSITION[SLOT_DEFS[i].id] = i;     // stałe miejsce w tabeli
+    SLOT_POSITION[SLOT_DEFS[i].id] = i;
     SLOT_LABEL[SLOT_DEFS[i].id] = SLOT_DEFS[i].label;
     SLOT_MSG[SLOT_DEFS[i].id] = SLOT_DEFS[i].msg;
     SLOT_TYPE[SLOT_DEFS[i].id] = SLOT_DEFS[i].type;
@@ -123,7 +106,6 @@
   const NORMAL_TOTAL = SLOT_DEFS.filter(s => s.type === "normal").length;
   const SUPER_TOTAL = SLOT_DEFS.filter(s => s.type === "super").length;
 
-  // normalize: lower + trim + collapse spaces + usuń polskie znaki (żeby aliasy działały w obu wersjach)
   const normalize = (s) =>
     s
       .trim()
@@ -132,7 +114,6 @@
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "");
 
-  // INPUT -> SLOT (z aliasów)
   const INPUT_TO_SLOT = {};
   for (const item of ALIASES) {
     for (const w of item.words) {
@@ -202,7 +183,7 @@
   };
 
   // =========================
-  // 4) TABELA + “SZYFROWANIE”
+  // 4) TABELA + SZYFROWANIE
   // =========================
   const TABLE_ROWS = SLOT_DEFS.length;
   const ENC_LEN = 7;
@@ -210,7 +191,7 @@
   const ENC_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*?";
 
   const tableRows = [];
-  const usedCommands = new Set(); // trzymamy SLOTY (np. "haslo5")
+  const usedCommands = new Set();
   const usedNormals = new Set();
   const usedSupers = new Set();
 
@@ -301,18 +282,14 @@
 
   const restoreProgress = () => {
     const found = loadFoundSlots();
-
     for (const slot of found) {
       if (!Object.prototype.hasOwnProperty.call(SLOT_POSITION, slot)) continue;
-
       const idx = SLOT_POSITION[slot];
       lockRowAsFound(idx, SLOT_LABEL[slot] || slot);
-
       usedCommands.add(slot);
       if (SLOT_TYPE[slot] === "normal") usedNormals.add(slot);
       if (SLOT_TYPE[slot] === "super") usedSupers.add(slot);
     }
-
     updateCounters();
     showResetIfUnlocked();
   };
@@ -320,7 +297,7 @@
   restoreProgress();
 
   // =========================
-  // 6) TERMINAL HELPERS
+  // 6) HELPERS
   // =========================
   const scrollToBottom = () => {
     terminalBody.scrollTop = terminalBody.scrollHeight;
@@ -334,15 +311,10 @@
   const typeIntoNode = (node, text, speedMs, withSound, done) => {
     let i = 0;
     const step = () => {
-      if (i >= text.length) {
-        done && done();
-        return;
-      }
+      if (i >= text.length) { done && done(); return; }
       const ch = text[i];
       node.textContent += ch;
-
       if (withSound && ch !== "\n" && ch !== "\r" && ch !== " ") clickSound();
-
       i += 1;
       const jitter = Math.floor(Math.random() * 12);
       window.setTimeout(step, speedMs + jitter);
@@ -353,10 +325,7 @@
   const printTypingToOut = (text, speedMs, withSound, done) => {
     let i = 0;
     const step = () => {
-      if (i >= text.length) {
-        done && done();
-        return;
-      }
+      if (i >= text.length) { done && done(); return; }
       const ch = text[i];
       appendChar(ch);
       if (withSound && ch !== "\n" && ch !== "\r" && ch !== " ") clickSound();
@@ -415,29 +384,24 @@
       return;
     }
 
-    // Komendy specjalne (po odblokowaniu)
     if (isAllDoneUnlocked() && Object.prototype.hasOwnProperty.call(SPECIAL_COMMANDS, key)) {
       out.textContent += SPECIAL_COMMANDS[key] + "\n\n";
       scrollToBottom();
       return;
     }
 
-    // Sloty (tabela + liczniki)
     const slot = INPUT_TO_SLOT[key];
     if (slot && Object.prototype.hasOwnProperty.call(SLOT_POSITION, slot)) {
       const rowIndex = SLOT_POSITION[slot];
 
       if (!usedCommands.has(slot)) {
         usedCommands.add(slot);
-
         if (SLOT_TYPE[slot] === "normal") usedNormals.add(slot);
         if (SLOT_TYPE[slot] === "super") usedSupers.add(slot);
 
-        // do tabeli wstawiamy STAŁY label
         lockRowAsFound(rowIndex, SLOT_LABEL[slot] || trimmed);
         updateCounters();
 
-        // persist: zapis slotu
         const found = loadFoundSlots();
         if (!found.includes(slot)) {
           found.push(slot);
@@ -447,7 +411,6 @@
         maybeUnlockAllDone();
       }
 
-      // terminal message
       out.textContent += (SLOT_MSG[slot] || "\n") + "\n";
       scrollToBottom();
       return;
@@ -458,7 +421,7 @@
   };
 
   // =========================
-  // 8) START: boot typing -> prompt typing -> input enabled
+  // 8) START
   // =========================
   setPromptVisible(false);
   promptLabel.textContent = "";
@@ -476,17 +439,14 @@
   });
 
   // =========================
-  // 9) INPUT: Enter wysyła komendę
+  // 9) INPUT
   // =========================
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-
       const raw = input.textContent;
       clearInput();
-
       handleCommand(raw);
-
       promptLabel.textContent = "Waiting for Misia: ";
       focusInput();
       return;
@@ -502,7 +462,6 @@
     if (promptRow.style.display !== "none") focusInput();
   });
 
-  // RESET
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
       try {
