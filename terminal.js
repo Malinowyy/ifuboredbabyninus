@@ -372,53 +372,73 @@
   };
 
   const handleCommand = (raw) => {
-    const trimmed = raw.trim();
-    const key = normalize(trimmed);
+  const trimmed = raw.trim();
+  const key = normalize(trimmed);
 
-    out.textContent += `C:\\Users\\misiu> ${trimmed}\n`;
+  // echo komendy w historii jako CMD
+  out.textContent += `C:\\Users\\misiu> ${trimmed}\n`;
+  scrollToBottom();
+
+  if (key.length === 0) {
+    out.textContent += "\n";
     scrollToBottom();
+    return;
+  }
 
-    if (key.length === 0) {
-      out.textContent += "\n";
-      scrollToBottom();
-      return;
-    }
+  // Komendy specjalne (po odblokowaniu)
+  if (isAllDoneUnlocked() && Object.prototype.hasOwnProperty.call(SPECIAL_COMMANDS, key)) {
+    out.textContent += SPECIAL_COMMANDS[key] + "\n\n";
+    scrollToBottom();
+    return;
+  }
 
-    if (isAllDoneUnlocked() && Object.prototype.hasOwnProperty.call(SPECIAL_COMMANDS, key)) {
-      out.textContent += SPECIAL_COMMANDS[key] + "\n\n";
-      scrollToBottom();
-      return;
-    }
+  // Sloty (tabela + liczniki)
+  const slot = INPUT_TO_SLOT[key];
+  if (slot && Object.prototype.hasOwnProperty.call(SLOT_POSITION, slot)) {
+    const rowIndex = SLOT_POSITION[slot];
 
-    const slot = INPUT_TO_SLOT[key];
-    if (slot && Object.prototype.hasOwnProperty.call(SLOT_POSITION, slot)) {
-      const rowIndex = SLOT_POSITION[slot];
+    // czy to była nowa odblokowana rzecz (żeby unlock check robić tylko raz)
+    let isNewUnlock = false;
 
-      if (!usedCommands.has(slot)) {
-        usedCommands.add(slot);
-        if (SLOT_TYPE[slot] === "normal") usedNormals.add(slot);
-        if (SLOT_TYPE[slot] === "super") usedSupers.add(slot);
+    if (!usedCommands.has(slot)) {
+      isNewUnlock = true;
 
-        lockRowAsFound(rowIndex, SLOT_LABEL[slot] || trimmed);
-        updateCounters();
+      usedCommands.add(slot);
+      if (SLOT_TYPE[slot] === "normal") usedNormals.add(slot);
+      if (SLOT_TYPE[slot] === "super") usedSupers.add(slot);
 
-        const found = loadFoundSlots();
-        if (!found.includes(slot)) {
-          found.push(slot);
-          saveFoundSlots(found);
-        }
+      lockRowAsFound(rowIndex, SLOT_LABEL[slot] || trimmed);
+      updateCounters();
 
-        maybeUnlockAllDone();
+      // PERSIST: zapisz znaleziony slot
+      const found = loadFoundSlots();
+      if (!found.includes(slot)) {
+        found.push(slot);
+        saveFoundSlots(found);
       }
-
-      out.textContent += (SLOT_MSG[slot] || "\n") + "\n";
-      scrollToBottom();
-      return;
     }
 
-    out.textContent += cmdNotFound(trimmed);
+    // 1) najpierw wypisz wiadomość dla slotu
+    out.textContent += (SLOT_MSG[slot] || "\n") + "\n";
     scrollToBottom();
-  };
+
+    // 2) dopiero potem ewentualnie pokaż "Odblokowano komendę - 'all done'"
+    if (isNewUnlock) {
+      maybeUnlockAllDone();
+    }
+
+    // daj odstęp jak w cmd
+    out.textContent += "\n";
+    scrollToBottom();
+    return;
+  }
+
+  // Nieznana komenda
+  out.textContent += cmdNotFound(trimmed);
+  scrollToBottom();
+};
+
+ 
 
   // =========================
   // 8) START
