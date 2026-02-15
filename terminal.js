@@ -26,7 +26,7 @@
   // =========================
 
   const SPECIAL_COMMANDS = {
-    "all done": "TU_WPISZ_WLASNA_WIADOMOSC_PO_ALL_DONE\n",
+    "all done": "Wow! Imponujące. Jestem ciekawy ile rzeczy musiałem ci podpowiedzieć hahah. Ale mam nadzieję, że ta gierka zapewniła ci trochę radości, trochę nostalgii i trochę cię zaciekawiła. Kocham cię! Do zobaczenia w pszyszłych projektach - Twój informatyk <3.\n",
   };
 
   // Sloty w kolejności w tabeli (po zmianach: merged maple/poniedziałek, usunięty sylwester, dodany całus/buziak)
