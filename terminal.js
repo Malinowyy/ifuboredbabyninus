@@ -11,12 +11,18 @@
   const superCounterEl = document.getElementById("superCounter");
   const tableBody = document.getElementById("foundTableBody");
 
+  // Przycisk resetu (dodaj w historia.html, ale JS zadziała nawet jeśli go nie ma)
+  const resetBtn = document.getElementById("resetBtn");
+
   if (
     !out || !input || !caret || !promptRow || !promptLabel || !terminalBody ||
     !normalCounterEl || !superCounterEl || !tableBody
   ) {
     return;
   }
+
+  const LS_KEY_FOUND = "misiu_found_slots_v1";
+  const LS_KEY_ALLDONE = "misiu_alldone_unlocked_v1";
 
   // =========================
   // 1) KONFIG: SLOTY + ALIASY
@@ -45,11 +51,17 @@
     super2: "SUPER WIADOMOŚĆ 2 — wpisz swoją\n",
   };
 
+  // Komendy spoza tabeli/liczników (po odblokowaniu wszystkiego)
+  const SPECIAL_COMMANDS = {
+    "all done": "TU_WPISZ_WLASNA_WIADOMOSC_PO_ALL_DONE\n",
+  };
+
   // Co użytkownik wpisuje -> do którego slotu to należy
+  // PODMIEŃ aliasy na swoje hasła (bez obraźliwych słów).
   const INPUT_TO_SLOT = {
     // normalne:
-    "nigger": "haslo1",
-    "nigga": "haslo2",
+    "alias_haslo1": "haslo1",
+    "alias_haslo2": "haslo2",
     "haslo3": "haslo3",
     "haslo4": "haslo4",
     "haslo5": "haslo5",
@@ -64,7 +76,7 @@
     "haslo14": "haslo14",
 
     // super:
-    "gigga nigga": "super1",
+    "alias_super1": "super1",
     "super2": "super2",
   };
 
@@ -161,7 +173,7 @@
   const ENC_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*?";
 
   const tableRows = [];
-  const usedCommands = new Set(); // trzymamy SLOTY (np. "haslo5"), nie wpisane teksty
+  const usedCommands = new Set(); // trzymamy SLOTY (np. "haslo5")
   const usedNormals = new Set();
   const usedSupers = new Set();
 
@@ -214,13 +226,62 @@
   };
 
   // =========================
-  // 5) LICZNIKI
+  // 5) LICZNIKI + PERSIST
   // =========================
   const updateCounters = () => {
     normalCounterEl.textContent = `Inside joke ${usedNormals.size}/${NORMAL_TOTAL}`;
     superCounterEl.textContent = `Super inside joke ${usedSupers.size}/${SUPER_TOTAL}`;
   };
-  updateCounters();
+
+  const loadFoundSlots = () => {
+    try {
+      const raw = localStorage.getItem(LS_KEY_FOUND);
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch (_) {
+      return [];
+    }
+  };
+
+  const saveFoundSlots = (slotsArr) => {
+    try {
+      localStorage.setItem(LS_KEY_FOUND, JSON.stringify(slotsArr));
+    } catch (_) {}
+  };
+
+  const isAllDoneUnlocked = () => {
+    try { return localStorage.getItem(LS_KEY_ALLDONE) === "1"; } catch (_) { return false; }
+  };
+
+  const setAllDoneUnlocked = () => {
+    try { localStorage.setItem(LS_KEY_ALLDONE, "1"); } catch (_) {}
+  };
+
+  const showResetIfUnlocked = () => {
+    if (!resetBtn) return;
+    resetBtn.style.display = isAllDoneUnlocked() ? "inline-flex" : "none";
+  };
+
+  const restoreProgress = () => {
+    const found = loadFoundSlots();
+
+    for (const slot of found) {
+      if (!Object.prototype.hasOwnProperty.call(SLOT_POSITION, slot)) continue;
+
+      const idx = SLOT_POSITION[slot];
+      lockRowAsFound(idx, slot);
+
+      usedCommands.add(slot);
+      if (Object.prototype.hasOwnProperty.call(NORMAL_SLOTS, slot)) usedNormals.add(slot);
+      if (Object.prototype.hasOwnProperty.call(SUPER_SLOTS, slot)) usedSupers.add(slot);
+    }
+
+    updateCounters();
+    showResetIfUnlocked();
+  };
+
+  // odtwórz progress od razu po zrobieniu tabeli
+  restoreProgress();
 
   // =========================
   // 6) TERMINAL HELPERS
@@ -298,11 +359,19 @@
   const normalize = (s) =>
     s.trim().toLowerCase().replace(/\s+/g, " ");
 
+  const maybeUnlockAllDone = () => {
+    if (usedNormals.size === NORMAL_TOTAL && usedSupers.size === SUPER_TOTAL && !isAllDoneUnlocked()) {
+      setAllDoneUnlocked();
+      out.textContent += "Odblokowano komendę - 'all done'\n\n";
+      scrollToBottom();
+      showResetIfUnlocked();
+    }
+  };
+
   const handleCommand = (raw) => {
     const trimmed = raw.trim();
     const key = normalize(trimmed);
 
-    // echo komendy w historii jako CMD
     out.textContent += `C:\\Users\\misiu> ${trimmed}\n`;
     scrollToBottom();
 
@@ -312,13 +381,18 @@
       return;
     }
 
-    // --- SLOT-BASED COMMAND RESOLUTION ---
-    const slot = INPUT_TO_SLOT[key];
+    // Komendy specjalne (po odblokowaniu)
+    if (isAllDoneUnlocked() && Object.prototype.hasOwnProperty.call(SPECIAL_COMMANDS, key)) {
+      out.textContent += SPECIAL_COMMANDS[key] + "\n\n";
+      scrollToBottom();
+      return;
+    }
 
+    // Sloty (tabela + liczniki)
+    const slot = INPUT_TO_SLOT[key];
     if (slot && Object.prototype.hasOwnProperty.call(SLOT_POSITION, slot)) {
       const rowIndex = SLOT_POSITION[slot];
 
-      // odkrycie liczy się raz per slot
       if (!usedCommands.has(slot)) {
         usedCommands.add(slot);
 
@@ -327,13 +401,21 @@
 
         lockRowAsFound(rowIndex, trimmed);
         updateCounters();
+
+        // PERSIST: zapisz znaleziony slot
+        const found = loadFoundSlots();
+        if (!found.includes(slot)) {
+          found.push(slot);
+          saveFoundSlots(found);
+        }
+
+        maybeUnlockAllDone();
       }
 
-      // wypisz customową wiadomość
       if (Object.prototype.hasOwnProperty.call(NORMAL_SLOTS, slot)) {
-        out.textContent += NORMAL_SLOTS[slot] + "\n";
+        out.textContent += NORMAL_SLOTS[slot] + "\n\n";
       } else if (Object.prototype.hasOwnProperty.call(SUPER_SLOTS, slot)) {
-        out.textContent += SUPER_SLOTS[slot] + "\n";
+        out.textContent += SUPER_SLOTS[slot] + "\n\n";
       } else {
         out.textContent += "\n\n";
       }
@@ -341,7 +423,6 @@
       scrollToBottom();
       return;
     }
-    // --- END SLOT-BASED COMMAND RESOLUTION ---
 
     out.textContent += cmdNotFound(trimmed);
     scrollToBottom();
@@ -392,4 +473,14 @@
     if (promptRow.style.display !== "none") focusInput();
   });
 
+  // RESET
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      try {
+        localStorage.removeItem(LS_KEY_FOUND);
+        localStorage.removeItem(LS_KEY_ALLDONE);
+      } catch (_) {}
+      location.reload();
+    });
+  }
 })();
