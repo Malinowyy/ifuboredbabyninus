@@ -51,13 +51,13 @@
 
     { id: "haslo13", type: "normal", label: "Dziękuję! hahah", msg: "Kocham cię! (nie dziękuj :p) \n" },
     { id: "haslo14", type: "normal", label: "Bydgoszcz jeden", msg: "Ale było fajnie. W końcu widziałem wszystko to o czym mi opowiadałaś.\n Chociaż tak krótko byłem...\n" },
-    { id: "haslo15", type: "normal", label: "Warszawa", msg: "Na dwa tygodnie przed zaczęło się coś psuć. Bałem się strasznie.\n Zaczęło się od tego, że przestałaś mi odpowiadać na 'Kocham cię'\n Trochę sus. Nie chciałaś czegoś powiedzieć. A ja ukrywałem, że czuję się zbędny...\n W warszawie było dziwnie. Dobrze się bawiłem, nie powiem, że nie, ale czułem te czarne chmury nad nami. \n I ta rozomwa wieczorem u Wiktorii. \n \n" },
-    { id: "haslo16", type: "normal", label: "No contact", msg: "wiadomosc16\n" },
-    { id: "haslo17", type: "normal", label: "Bydgoszcz dwa", msg: "wiadomosc17\n" },
+    { id: "haslo15", type: "normal", label: "Warszawa", msg: "Na dwa tygodnie przed zaczęło się coś psuć. Bałem się strasznie.\n Zaczęło się od tego, że przestałaś mi odpowiadać na 'Kocham cię'\n Trochę sus. Nie chciałaś czegoś powiedzieć. A ja ukrywałem, że czuję się zbędny...\n W warszawie było dziwnie. Dobrze się bawiłem, nie powiem, że nie, ale czułem te czarne chmury nad nami. \n I ta rozomwa wieczorem u Wiktorii. \n Pamiętam dokładnie co mówiłaś. I nie wiedziałem jak zareagować. \n Nie wiedziałem czy płakać, czy prosić czy być zły. Nie wiedziałem. Wrociłem do radomia i czułem się jakbyśmy właśnie zerwali. \n " },
+    { id: "haslo16", type: "normal", label: "No contact", msg: "Dobrze, że miałem krzyśka wtedy. I trochę cierpliwości. Lub empatii. Lub po prostu miłości.\n Chat gpt mi mówił, kiedy mogę napisać a kiedy nie. Nauczyłem się wtedy też dużo o sobie. Zgodnie z chatem, miałem jeszcze poczekać tydzień. \n Bez przesady. \n Leciałem do pragi. Tak bardzo chciałem móc relacjonować ci wszystko! Lużno wysłałem losowe zdjęcie z lotniska. Napisałaś potem, że chyba możemy wrócić do kontaktu.\n Dawno się tak nie cieszyłem.\n" },
+    { id: "haslo17", type: "normal", label: "Święta, Sylwester, Studniówka, Bydgoszcz dwa - happy ending. The happies I can imagine", msg: "W święta mieliśmy kolejną rozmowę. Znacznie weselszą. Po lepieniu pierniczków haha. \n Wtedy nasza relacja odżyła na nowo. W sylwestra pierwszy french kiss hehehe. Ale się jarałem. \n Studniówka - ablsolute peak. Drugi raz w bydgoszczy tak samo. Piszę to po OMie. \n Kocham cię Ninuś bardzo. Jestem wdzięczny za to co przeżylismy i bardzo ciekawy co przed nami. \n A jestem pewien, że bardzo dobrze rzeczy.\n" },
 
     // SUPER
-    { id: "super1",  type: "super",  label: "Liseeek", msg: "wiadomosc18\n" },
-    { id: "super2",  type: "super",  label: "Kształcenie słuchu", msg: "wiadomosc19\n" },
+    { id: "super1",  type: "super",  label: "Liseeek", msg: "Liseeeeek! Pamiętnik. Syrena alarmowa. Trochę tego było.. \n Pamiętam jak byłem 'Skrzypcowy kawopij' hahahha\n" },
+    { id: "super2",  type: "super",  label: "Kształcenie słuchu", msg: "W sumie to fajna sprawa, zmieniłem zdanie\n" },
   ];
 
   // Alias listy -> slot
@@ -84,7 +84,7 @@
     { slot: "haslo14", words: ["bydgoszcz", "bydgoszcz jeden"] },
     { slot: "haslo15", words: ["warszawa"] },
     { slot: "haslo16", words: ["no contact"] },
-    { slot: "haslo17", words: ["bydgoszcz dwa"] },
+    { slot: "haslo17", words: ["bydgoszcz dwa", "swieta", "sylwester"] },
 
     // SUPER
     { slot: "super1",  words: ["lisek", "wiewiorka", "wiewiórka"] },
