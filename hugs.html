@@ -9,8 +9,8 @@
 <body class="page page--default">
   <header class="topbar topbar--red">
     <button class="topbar__homeBtn" onclick="location.href='index.html'">
-  Hej misiu, co tam?
-</button>
+      Hej misiu, co tam?
+    </button>
 
     <nav class="topbar__nav">
       <a class="btn btn--pill" href="zegar.html">Zegar (naszego) świata</a>
@@ -24,7 +24,14 @@
       <div class="hug-row">
         <div class="hug-side hug-side--left">
           <button id="hugPlayBtn" class="btn btn--pill btn--primary" type="button">I neeg a hug</button>
-          <div class="hug-hint">Kiedy nie ma mnie obok <3</div>
+
+          <div class="hug-hint">Kiedy nie ma mnie obok &lt;3</div>
+
+          <!-- LICZNIK POD NAPISEM -->
+          <div class="hug-counter hug-counter--left">
+            <div class="hug-counter__label">Liczniczek</div>
+            <div id="hugCount" class="hug-counter__value">0</div>
+          </div>
         </div>
 
         <div class="hug-media">
@@ -34,19 +41,10 @@
             playsinline
             muted
             preload="auto"
-            loop="false"
             controlslist="nodownload noplaybackrate noremoteplayback"
           ></video>
         </div>
-
-        <div class="hug-side hug-side--right">
-          <div class="hug-counter">
-            <div class="hug-counter__label">Liczniczek</div>
-            <div id="hugCount" class="hug-counter__value">0</div>
-          </div>
-        </div>
       </div>
-
     </div>
   </main>
 
