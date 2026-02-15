@@ -744,4 +744,10 @@ body{
   40%  { transform: translate(-50%, -45%) scale(1); opacity: 0.95; }
   100% { transform: translate(-50%, -45%) scale(1); opacity: 0.95; }
 }
+.hug-side{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:10px;
+}
 
