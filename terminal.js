@@ -28,7 +28,7 @@ let appMode = "terminal";
   // =========================
 
   const SPECIAL_COMMANDS = {
-    "all done": "Suspicious behaviour detected. Activating defense protocol... \n .\n. \n Informing THE ADMIN",
+    "all done": "Suspicious behaviour detected. Activating defense protocol... \n.\n.\n Informing THE ADMIN",
   };
 
   // Sloty w kolejności w tabeli (po zmianach: merged maple/poniedziałek, usunięty sylwester, dodany całus/buziak)
