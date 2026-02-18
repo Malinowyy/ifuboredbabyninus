@@ -183,6 +183,46 @@ let appMode = "terminal";
     src.start(t);
     src.stop(t + 0.07);
   };
+  let alarmOsc = null;
+let alarmGain = null;
+
+function startAlarm() {
+  ensureAudio();
+
+  const t = audioCtx.currentTime;
+
+  alarmOsc = audioCtx.createOscillator();
+  alarmGain = audioCtx.createGain();
+
+  alarmOsc.type = "sawtooth";
+  alarmOsc.frequency.setValueAtTime(110, t); // niski ton
+
+  // lekkie falowanie tonu
+  const lfo = audioCtx.createOscillator();
+  const lfoGain = audioCtx.createGain();
+  lfo.frequency.value = 0.6;
+  lfoGain.gain.value = 30;
+  lfo.connect(lfoGain);
+  lfoGain.connect(alarmOsc.frequency);
+  lfo.start();
+
+  alarmGain.gain.setValueAtTime(0.0001, t);
+  alarmGain.gain.exponentialRampToValueAtTime(0.05, t + 2);
+
+  alarmOsc.connect(alarmGain);
+  alarmGain.connect(audioCtx.destination);
+
+  alarmOsc.start();
+}
+
+function stopAlarm() {
+  if (!alarmOsc) return;
+  const t = audioCtx.currentTime;
+  alarmGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+  alarmOsc.stop(t + 0.6);
+  alarmOsc = null;
+}
+
 
   // =========================
   // 4) TABELA + SZYFROWANIE
@@ -507,11 +547,13 @@ async function startAllDoneSequence() {
   scrollToBottom();
 
   // 2. odliczanie
+  startAlarm();
   for (let i = 20; i >= 0; i--) {
     out.textContent += i + "\n";
     scrollToBottom();
-    await delay(1000);
+    await delay(700);
   }
+  stopAlarm();
 
   // 3. glitch
   appMode = "glitch";
@@ -542,12 +584,31 @@ async function startAllDoneSequence() {
 
   overlay.classList.remove("hidden");
 
-  typeAdminText(content, [
-    "<admin> hmm i see what you are trying to do....",
-    "<admin> but i must check if you are worthy..."
-  ], () => {
-    startQuiz();
-  });
+  function typeAdminText(container, lines, done) {
+  container.innerHTML = "";
+  let i = 0;
+
+  function nextLine() {
+    if (i >= lines.length) {
+      setTimeout(() => {
+        done && done();
+      }, 7000); // 7 sekund pauzy po napisaniu
+      return;
+    }
+
+    const p = document.createElement("p");
+    container.appendChild(p);
+
+    // wolniejsze pisanie
+    typeIntoNode(p, lines[i], 60, true, () => {
+      i++;
+      setTimeout(nextLine, 1200);
+    });
+  }
+
+  nextLine();
+}
+
 }
 
 function typeAdminText(container, lines, done) {
@@ -574,23 +635,23 @@ function typeAdminText(container, lines, done) {
 const quizData = [
   {
     img: "photo1.png",
-    question: "Gdzie zrobilismy to zdjecie?",
-    answer: "radom"
+    question: "Gdzie zrobilismy to zdjecie? (miasto)",
+    answer: "Warszawa"
   },
   {
     img: "photo2.png",
     question: "W ktorym miesiacu zrobilismy to zdjecie?",
-    answer: "lipiec"
+    answer: "październik"
   },
   {
     img: "photo3.png",
     question: "Na jakim evencie zrobiono to zdjecie?",
-    answer: "studniowka"
+    answer: "szkola animatora"
   },
   {
     img: "photo4.png",
     question: "Co bylo w pudelku?",
-    answer: "list"
+    answer: "charms"
   }
 ];
 
