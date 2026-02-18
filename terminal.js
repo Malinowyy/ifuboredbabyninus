@@ -584,7 +584,7 @@ const quizData = [
   },
   {
     img: "photo3.png",
-    question: "Po jakim evencie zrobilismy to zdjecie?",
+    question: "Na jakim evencie zrobiono to zdjecie?",
     answer: "studniowka"
   },
   {
