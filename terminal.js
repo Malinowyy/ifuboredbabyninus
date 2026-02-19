@@ -33,7 +33,7 @@ let appMode = "terminal";
 
   // ====== CONFIG ======
   const SPECIAL_COMMANDS = {
-    "all done": "Suspicious behaviour detected. Activating defense protocol...\n.\n.\nInforming THE ADMIN\n",
+    "all done": "Suspicious behaviour detected. Activating defense protocol...\n.\n.\nInforming THE ADMIN!\n",
   };
 
   // Sloty w kolejności w tabeli
@@ -349,7 +349,7 @@ let appMode = "terminal";
     const allFound = (usedNormals.size === NORMAL_TOTAL && usedSupers.size === SUPER_TOTAL);
     if (allFound && !isAllDoneUnlocked()) {
       setAllDoneUnlocked();
-      out.textContent += "Odblokowano komendę - 'all done'\n\n";
+      out.textContent += "Odblokowano komendę - 'all done' \n\n";
       scrollToBottom();
       showResetIfUnlocked();
     }
@@ -434,7 +434,7 @@ let appMode = "terminal";
           showQuizQuestion();
         }
       } else {
-        quizMsg.textContent = "Nie tak łatwo...";
+        quizMsg.textContent = "hehehe, nie tak łatwo...";
       }
     });
   }
@@ -447,10 +447,11 @@ let appMode = "terminal";
       <div class="admin-final" style="text-align:center;">
         <img src="photo_final.png" alt="final" style="max-width: min(720px, 92vw); max-height: 52vh; display:block; margin:0 auto 14px; border-radius: 14px;">
         <p style="white-space:pre-line; max-width: min(820px, 92vw); margin: 0 auto 14px;">
-Co??? JAK CI SIE TO UDAŁO???
-Ech... Zapomniałem, że jesteśmy klonami. Wchodź zatem — zasłużyłaś.
+<M4LINA> Co??? JAK CI SIE TO UDAŁO???
+<M4LINA> Ech... Zapomniałem, że jesteśmy klonami. 
+<M4LINA> Wchodź zatem — zasłużyłaś.
         </p>
-        <button id="authorBtn" style="padding:10px 14px; border-radius:999px; border:0; cursor:pointer;">Wiadomość od autora</button>
+        <button id="authorBtn" style="padding:10px 14px; border-radius:999px; border:0; cursor:pointer;">Od autora</button>
       </div>
     `;
 
@@ -460,7 +461,7 @@ Ech... Zapomniałem, że jesteśmy klonami. Wchodź zatem — zasłużyłaś.
         <div style="text-align:center; max-width: min(820px, 92vw);">
           <p style="white-space:pre-line;">
 Wow! Imponujące. Jestem ciekawy ile rzeczy musiałem ci podpowiedzieć hahah.
-Ale mam nadzieję, że ta gierka zapewniła ci trochę radości, trochę nostalgii i trochę cię zaciekawiła.
+Ale mam nadzieję, że ta gierka dostarczyła ci trochę radości, trochę nostalgii i trochę cię zaciekawiła.
 Kocham cię! Do zobaczenia w przyszłych projektach — Twój informatyk &lt;3.
           </p>
           <button id="resetAll" style="margin-top:12px; padding:10px 14px; border-radius:999px; border:0; cursor:pointer;">Resetuj wszystko</button>
@@ -529,8 +530,8 @@ Kocham cię! Do zobaczenia w przyszłych projektach — Twój informatyk &lt;3.
     if (!ensureOverlayVisible()) return;
 
     const lines = [
-      "<admin> hmm i see what you are trying to do....",
-      "<admin> but i must check if you are worthy...",
+      "<admin> Hmm I see what you are trying to do...",
+      "<admin> But I must check if you are worthy...",
     ];
 
     typeAdminLines(adminContent, lines, 7000, () => {
