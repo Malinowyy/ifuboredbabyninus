@@ -1,5 +1,6 @@
 // terminal.js
-// Naprawiona wersja: działa boot typing, tabela, 'all done' -> odliczanie z alarm.mp3 -> glitch.mp4 -> ADMIN intro (wolniej) + pauza 7s -> quiz -> finał + reset.
+// Naprawiona wersja: boot typing, tabela, 'all done' -> odliczanie z alarm.mp3 -> glitch.mp4
+// -> ADMIN intro (wolniej) + pauza 7s + ominous.png -> quiz -> finał + reset.
 
 let appMode = "terminal";
 
@@ -41,20 +42,20 @@ let appMode = "terminal";
     { id: "haslo1", type: "normal", label: "Igrzyska śmierci w Heliosie", msg:"To właśnie tu mam pierwsze wspomnienie z Tobą.\nPrzyszedłem do kina z nowo poznaną paczką przyjaciół. Pamiętam to zaspanie w tym kinie i szok, że ktoś mnie rozpoznał, hahah.\nKto by wtedy przypuszczał...\n"},
     { id: "haslo2",  type: "normal", label: "Oaza w sandomierzu", msg: "Ah... Dla mnie tu zaczęła się nasza relacja.\nPamiętasz jak ganiało za Tobą multum chłopaków? Albo jak ja za Rokitą... To właśnie ta akcja zapoczątkowała naszą znajomość.\nTo właśnie był główny temat naszych pierwszych rozmów. A potem już poleciało.\n" },
     { id: "haslo3",  type: "normal", label: "Osiemnastka agaty", msg: "To było mocne haha. Jeszcze wtedy nie wiedziałem, że Cię pokochałem, ale coś mnie do Ciebie ciągnęło.\nNatomiast pamiętam, że już irytowała mnie obecność Antka obok Ciebie i z jakiegoś powodu mu zazdrościłem.\nNie zastanawiałem się nad tym jednak dłużej.\nPamiętam, jak się stresowałem, bo to przecież pierwsza osiemnastka, na której byłem w życiu.\nI pamiętam jak mnie w tym wspierałaś...\n" },
-    { id: "haslo4",  type: "normal", label: "KODA", msg: "Na oko - ze 3 miesiąc od zauroczenia się w Tobie. Pierwszy od zakochania się.\nZ każdym dniem coraz mocniej uświadamiałem sobie, że odkochanie się nie będzie takie proste.\nWtedy też pobiłem ścianę z tej frustracji. I wtedy też dowiedziała się Aga.\nPamiętam jak krytykowałem w głowie to, jak Antek się zachowywał wokół Ciebie.\nGdybym tylko miał kiedyś szansę pokazać Ci na jaką miłość zasługujesz...\n" },
-    { id: "haslo5",  type: "normal", label: "Kałków oaza", msg: "Tutaj już powoli myślałem, że udało mi się odkochać. Wielki sukces! - no, tak starałem sobie wmawiać.\nPseudo-związek z Julką uświadamiał mi jednak, jak bardzo Ty jesteś wyjątkowa.\nPopłakałaś się.\nA ja poczułem złość.\nJakim cudem nikt Cię nie wspierał. Czemu zostałaś sama.\nI wtedy właśnie uświadomiłem sobie, że nie byłaś szczęśliwa.\n" },
-    { id: "haslo6", type: "normal", label: "The antek thing...", msg:"Hmm ciekawy wybór.\n\nTeż to pamiętam. Cały ten dzień.\nJuż od paru dni byłaś zaaferowana, bo on budował to napięcie.\nWysyłałaś głosówki. Płakałaś.\nRzuciłem rower na trawę i zacząłem chodzić po losowym polu w Jedlance, pocieszając Cię i jednocześnie smucąc się z Tobą.\n"},
-    { id: "haslo7", type: "normal", label: "Osiemnastka Maliny!", msg:"Hahahah, pamiętam jak zacząłem sobie robić nadzieję na związek.\nWika śmiała się, że jak się nie pocałujemy na tej imprezie, to ona nie wierzy w miłość.\nParę osób wiedziało, że kocham Cię od dawna.\nPiękne wspomnienia.\n"},
-    { id: "haslo8", type: "normal", label: "Pierwszy raz u mnie na caaaały dzień!", msg:"Ale się jarałem.\nZdziwił mnie jednak fakt, że przy Tobie w ogóle się nie stresowałem.\nZ Tobą było mi tak dobrze jak samemu. Nawet lepiej.\n"},
-    { id: "haslo9", type: "normal", label: "Bubbletea (mój pierwszy pretekst)", msg:"Pierwsze koty za płoty, hahah.\nJak po osiemnastce powiedziałem: „haha, mam kasę, to stawiam bubble tea”.\nPamiętasz jak szliśmy wybrać tapetę do Twojego pokoju, jedząc Takisy?\n"},
-    { id: "haslo10", type: "normal", label: "Pewnego pamiętnego poniedziałku... Piosenka!", msg: "Wróciliśmy ze szkoły animatora.\nPołożyłem się na łóżku i odpaliłem notatnik w telefonie.\nPróbowałem to nagrać swoim głosem, serio, ale brzmiało tragicznie.\nPojechałem do Ciebie - jutro wyjeżdżasz na studia... teraz albo nigdy.\nOdpaliłem piosenkę.\nPowiedziałaś: „Chciałabym dać nam szansę”.\nDziękuję za tę szansę.\n" },
+    { id: "haslo4",  type: "normal", label: "KODA", msg: "Na oko - ze 3 miesiąc od zauroczenia się w Tobie. Pierwszy od zakochania się.\nZ każdym dniem coraz mocniej uświadamiłem sobie, że odkochanie się nie będzie takie proste.\nWtedy też pobiłem ścianę z tej frustracji. I wtedy też dowiedziała się Aga.\nPamiętam jak krytykowałem w głowie to, jak Antek się zachowywał wokół Ciebie.\nGdybym tylko miał kiedyś szansę pokazać Ci na jaką miłość zasługujesz...\n" },
+    { id: "haslo5",  type: "normal", label: "Kałków oaza", msg: "Tutaj już powoli myślałem, że udało mi się odkochać.\nPopłakałaś się.\nA ja poczułem złość.\nJakim cudem nikt Cię nie wspierał. Czemu zostałaś sama.\nI wtedy uświadomiłem sobie, że nie byłaś szczęśliwa.\n" },
+    { id: "haslo6", type: "normal", label: "The antek thing...", msg:"Hmm ciekawy wybór.\n\nTeż to pamiętam. Cały ten dzień.\nWysyłałaś głosówki. Płakałaś.\nRzuciłem rower na trawę i zacząłem chodzić po polu w Jedlance, pocieszając Cię.\n"},
+    { id: "haslo7", type: "normal", label: "Osiemnastka Maliny!", msg:"Hahahah, pamiętam jak zacząłem sobie robić nadzieję.\nWika śmiała się, że jak się nie pocałujemy, to ona nie wierzy w miłość.\nPiękne wspomnienia.\n"},
+    { id: "haslo8", type: "normal", label: "Pierwszy raz u mnie na caaaały dzień!", msg:"Ale się jarałem.\nPrzy Tobie w ogóle się nie stresowałem.\nZ Tobą było mi tak dobrze jak samemu. Nawet lepiej.\n"},
+    { id: "haslo9", type: "normal", label: "Bubbletea (mój pierwszy pretekst)", msg:"Pierwsze koty za płoty.\n„Mam kasę, to stawiam bubble tea”.\nPamiętasz jak szliśmy wybrać tapetę, jedząc Takisy?\n"},
+    { id: "haslo10", type: "normal", label: "Pewnego pamiętnego poniedziałku... Piosenka!", msg: "Wróciliśmy ze szkoły animatora.\nOdpaliłem notatnik.\nPojechałem do Ciebie - teraz albo nigdy.\nOdpaliłem piosenkę.\nPowiedziałaś: „Chciałabym dać nam szansę”.\nDziękuję.\n" },
     { id: "haslo11", type: "normal", label: "Candle!", msg: "Candle reminder!!\n" },
-    { id: "haslo12", type: "normal", label: "Pierwszy pocałunek", msg: "Dwa tygodnie po pamiętnym poniedziałku!\nW końcu wróciłaś.\nZrobiłem Ci niespodziankę na dworcu.\nA reszta spoko.\n" },
+    { id: "haslo12", type: "normal", label: "Pierwszy pocałunek", msg: "Dwa tygodnie po pamiętnym poniedziałku.\nW końcu wróciłaś.\nZrobiłem Ci niespodziankę na dworcu.\n" },
     { id: "haslo13", type: "normal", label: "Dziękuję! hahah", msg: "Kocham Cię! (nie dziękuj :p)\n" },
-    { id: "haslo14", type: "normal", label: "Bydgoszcz jeden", msg: "Ale było fajnie.\nW końcu widziałem wszystko to, o czym mi opowiadałaś.\n" },
-    { id: "haslo15", type: "normal", label: "Warszawa", msg: "W Warszawie było dziwnie.\nCzułem czarne chmury nad nami.\n" },
-    { id: "haslo16", type: "normal", label: "No contact", msg: "ChatGPT mi mówił kiedy mogę napisać, a kiedy nie.\nLeciałem do Pragi.\nNapisałaś potem, że chyba możemy wrócić do kontaktu.\n" },
-    { id: "haslo17", type: "normal", label: "Święta, Sylwester, Studniówka, Bydgoszcz dwa - happy ending. The happiest I can imagine", msg: "W święta mieliśmy kolejną rozmowę.\nWtedy nasza relacja odżyła na nowo.\nKocham Cię Ninuś.\n" },
+    { id: "haslo14", type: "normal", label: "Bydgoszcz jeden", msg: "Ale było fajnie.\n" },
+    { id: "haslo15", type: "normal", label: "Warszawa", msg: "W Warszawie było dziwnie.\n" },
+    { id: "haslo16", type: "normal", label: "No contact", msg: "ChatGPT mi mówił kiedy mogę napisać.\n" },
+    { id: "haslo17", type: "normal", label: "Święta, Sylwester, Studniówka, Bydgoszcz dwa - happy ending", msg: "W święta mieliśmy kolejną rozmowę.\nKocham Cię Ninuś.\n" },
     { id: "super1",  type: "super",  label: "Liseeek", msg: "Liseeeeek! Pamiętnik. Syrena alarmowa.\n" },
     { id: "super2",  type: "super",  label: "Kształcenie słuchu", msg: "W sumie to fajna sprawa, zmieniłem zdanie\n" },
   ];
@@ -106,14 +107,10 @@ let appMode = "terminal";
       .replace(/[\u0300-\u036f]/g, "");
 
   const INPUT_TO_SLOT = {};
-  for (const item of ALIASES) {
-    for (const w of item.words) {
-      INPUT_TO_SLOT[normalize(w)] = item.slot;
-    }
-  }
+  for (const item of ALIASES) for (const w of item.words) INPUT_TO_SLOT[normalize(w)] = item.slot;
 
   // ====== BOOT TEXT ======
-  const bootLines = [
+  const bootText = [
     "C:\\Users\\misia> uruchom_historia.exe",
     "",
     "Loading memories... [OK]",
@@ -123,8 +120,7 @@ let appMode = "terminal";
     "",
     "Nasza historia jest - sama przyznasz - niezwykła.",
     "Ale jak to dokładnie było?\n"
-  ];
-  const bootText = bootLines.join("\n");
+  ].join("\n");
 
   // ====== AUDIO (typing click) ======
   let audioCtx = null;
@@ -179,7 +175,6 @@ let appMode = "terminal";
       alarmAudio.loop = true;
     }
     alarmAudio.currentTime = 0;
-    // play może failować bez user gesture, ale tu jest po Enter -> jest OK
     alarmAudio.play().catch(() => {});
   }
   function stopAlarm() {
@@ -234,7 +229,6 @@ let appMode = "terminal";
 
     rowObj.locked = true;
     rowObj.leftTd.textContent = labelText;
-
     rowObj.leftTd.classList.remove("cell-enc");
     rowObj.leftTd.classList.add("cell-found");
 
@@ -291,7 +285,6 @@ let appMode = "terminal";
 
   // ====== HELPERS ======
   const scrollToBottom = () => { terminalBody.scrollTop = terminalBody.scrollHeight; };
-
   const appendChar = (ch) => { out.textContent += ch; scrollToBottom(); };
 
   const typeIntoNode = (node, text, speedMs, withSound, done) => {
@@ -355,7 +348,7 @@ let appMode = "terminal";
     }
   };
 
-  // ====== ADMIN INTRO + QUIZ ======
+  // ====== ADMIN + QUIZ ======
   const quizData = [
     { img: "photo1.png", question: "Gdzie zrobilismy to zdjecie? (miasto)", answer: "warszawa" },
     { img: "photo2.png", question: "W ktorym miesiacu zrobilismy to zdjecie?", answer: "pazdziernik" },
@@ -367,7 +360,6 @@ let appMode = "terminal";
   function ensureOverlayVisible() {
     if (!adminOverlay || !adminContent) return false;
     adminOverlay.classList.remove("hidden");
-    // jeśli nie masz w CSS 70% przyciemnienia, to wymusimy inline:
     adminOverlay.style.position = "fixed";
     adminOverlay.style.inset = "0";
     adminOverlay.style.background = "rgba(0,0,0,0.7)";
@@ -389,7 +381,10 @@ let appMode = "terminal";
         return;
       }
       const p = document.createElement("p");
+      p.style.whiteSpace = "pre-line";
+      p.style.margin = "0 0 8px";
       container.appendChild(p);
+
       typeIntoNode(p, lines[i], 70, true, () => {
         i += 1;
         window.setTimeout(nextLine, 900);
@@ -401,14 +396,14 @@ let appMode = "terminal";
 
   function showQuizQuestion() {
     if (!ensureOverlayVisible()) return;
-
     const q = quizData[quizIndex];
 
     adminContent.innerHTML = `
       <div class="admin-quiz">
         <img src="${q.img}" alt="quiz" style="max-width: min(720px, 92vw); max-height: 52vh; display:block; margin:0 auto 14px; border-radius: 14px;">
         <p style="margin: 0 0 10px; text-align:center;">${q.question}</p>
-        <input id="quizInput" autocomplete="off" spellcheck="false" style="display:block; width:min(520px, 92vw); margin:0 auto; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.25); background: rgba(0,0,0,0.4); color:#fff;">
+        <input id="quizInput" autocomplete="off" spellcheck="false"
+               style="display:block; width:min(520px, 92vw); margin:0 auto; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.25); background: rgba(0,0,0,0.4); color:#fff;">
         <div id="quizMsg" style="margin-top:10px; text-align:center; opacity:0.9;"></div>
         <div style="margin-top:10px; text-align:center; opacity:0.7; font-size: 12px;">(bez polskich znaków, bez dużych liter)</div>
       </div>
@@ -416,7 +411,6 @@ let appMode = "terminal";
 
     const quizInput = document.getElementById("quizInput");
     const quizMsg = document.getElementById("quizMsg");
-
     quizInput.focus();
 
     quizInput.addEventListener("keydown", (e) => {
@@ -428,11 +422,8 @@ let appMode = "terminal";
 
       if (val === target) {
         quizIndex += 1;
-        if (quizIndex >= quizData.length) {
-          showFinal();
-        } else {
-          showQuizQuestion();
-        }
+        if (quizIndex >= quizData.length) showFinal();
+        else showQuizQuestion();
       } else {
         quizMsg.textContent = "hehehe, nie tak łatwo...";
       }
@@ -448,20 +439,18 @@ let appMode = "terminal";
         <img src="photo_final.png" alt="final" style="max-width: min(720px, 92vw); max-height: 52vh; display:block; margin:0 auto 14px; border-radius: 14px;">
         <p style="white-space:pre-line; max-width: min(820px, 92vw); margin: 0 auto 14px;">
 &lt;M4LINA&gt; Co??? JAK CI SIE TO UDAŁO???
-&lt;M4LINA&gt; Ech... Zapomniałem, że jesteśmy klonami. 
+&lt;M4LINA&gt; Ech... Zapomniałem, że jesteśmy klonami.
 &lt;M4LINA&gt; Wchodź zatem — zasłużyłaś.
         </p>
         <button id="authorBtn" style="padding:10px 14px; border-radius:999px; border:0; cursor:pointer;">Od autora</button>
       </div>
     `;
 
-    const authorBtn = document.getElementById("authorBtn");
-    authorBtn.addEventListener("click", () => {
+    document.getElementById("authorBtn").addEventListener("click", () => {
       adminContent.innerHTML = `
         <div style="text-align:center; max-width: min(820px, 92vw);">
           <p style="white-space:pre-line;">
-Wow! Imponujące. Jestem ciekawy ile rzeczy musiałem ci podpowiedzieć hahah.
-Ale mam nadzieję, że ta gierka dostarczyła ci trochę radości, trochę nostalgii i trochę cię zaciekawiła.
+Wow! Imponujące.
 Kocham cię! Do zobaczenia w przyszłych projektach — Twój informatyk &lt;3.
           </p>
           <button id="resetAll" style="margin-top:12px; padding:10px 14px; border-radius:999px; border:0; cursor:pointer;">Resetuj wszystko</button>
@@ -484,11 +473,9 @@ Kocham cię! Do zobaczenia w przyszłych projektach — Twój informatyk &lt;3.
     appMode = "countdown";
     setPromptVisible(false);
 
-    // 1) wypisz wiadomość
     out.textContent += SPECIAL_COMMANDS["all done"];
     scrollToBottom();
 
-    // 2) odliczanie
     startAlarm();
     for (let i = 20; i >= 0; i -= 1) {
       out.textContent += String(i) + "\n";
@@ -497,7 +484,6 @@ Kocham cię! Do zobaczenia w przyszłych projektach — Twój informatyk &lt;3.
     }
     stopAlarm();
 
-    // 3) glitch (mp4 na full, jeśli jest)
     appMode = "glitch";
     if (glitchVideo) {
       glitchVideo.classList.remove("hidden");
@@ -509,9 +495,7 @@ Kocham cię! Do zobaczenia w przyszłych projektach — Twój informatyk &lt;3.
       await delay(1200);
     }
 
-    // 4) wyczyść + "SYSTEM ACCESS GRANTED"
     out.textContent = "";
-    // usuń tabelę + zatrzymaj losowanie wierszy (żeby nie żarło CPU)
     for (const r of tableRows) {
       if (r.intervalId) window.clearInterval(r.intervalId);
       r.locked = true;
@@ -525,7 +509,7 @@ Kocham cię! Do zobaczenia w przyszłych projektach — Twój informatyk &lt;3.
     out.textContent = "";
     await delay(400);
 
-        // 5) admin intro (wolniej) + pauza 7s + quiz
+    // ADMIN intro
     appMode = "admin";
     if (!ensureOverlayVisible()) return;
 
@@ -534,31 +518,30 @@ Kocham cię! Do zobaczenia w przyszłych projektach — Twój informatyk &lt;3.
       "<admin> But I must check if you are worthy...",
     ];
 
-    // pokaż ominous.png + osobny kontener na tekst (żeby obrazek nie znikał)
     adminContent.innerHTML = `
       <div style="text-align:center;">
         <img src="ominous.png" alt="ominous"
              style="max-width:min(720px,92vw); max-height:52vh; display:block; margin:0 auto 14px; border-radius:14px;">
         <div id="adminLines"
-             style="max-width:min(820px,92vw); margin:0 auto; text-align:left; white-space:pre-line;"></div>
+             style="max-width:min(820px,92vw); margin:0 auto; text-align:left;"></div>
       </div>
     `;
 
     const adminLinesEl = document.getElementById("adminLines");
+    if (!adminLinesEl) return;
 
-    // 7000 ms pauzy po dopisaniu wszystkiego (jak chciałeś)
     typeAdminLines(adminLinesEl, lines, 7000, () => {
       quizIndex = 0;
       appMode = "adminQuiz";
       showQuizQuestion();
     });
+  } // <-- TO DOMKNIĘCIE BYŁO U CIEBIE ZGUBIONE
 
   // ====== HANDLE COMMAND ======
   const handleCommand = (raw) => {
     const trimmed = (raw || "").trim();
     const key = normalize(trimmed);
 
-    // echo komendy
     out.textContent += `C:\\Users\\misiu> ${trimmed}\n`;
     scrollToBottom();
 
@@ -568,13 +551,11 @@ Kocham cię! Do zobaczenia w przyszłych projektach — Twój informatyk &lt;3.
       return;
     }
 
-    // all done
     if (isAllDoneUnlocked() && key === "all done") {
       startAllDoneSequence();
       return;
     }
 
-    // normal slot
     const slot = INPUT_TO_SLOT[key];
     if (slot && Object.prototype.hasOwnProperty.call(SLOT_POSITION, slot)) {
       const rowIndex = SLOT_POSITION[slot];
@@ -597,11 +578,9 @@ Kocham cię! Do zobaczenia w przyszłych projektach — Twój informatyk &lt;3.
         }
       }
 
-      // najpierw wiadomość
       out.textContent += (SLOT_MSG[slot] || "\n") + "\n";
       scrollToBottom();
 
-      // potem unlock message
       if (isNewUnlock) maybeUnlockAllDone();
 
       out.textContent += "\n";
@@ -652,7 +631,6 @@ Kocham cię! Do zobaczenia w przyszłych projektach — Twój informatyk &lt;3.
     if (promptRow.style.display !== "none" && appMode === "terminal") focusInput();
   });
 
-  // reset button (jeśli istnieje)
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
       try {
