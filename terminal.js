@@ -447,9 +447,9 @@ let appMode = "terminal";
       <div class="admin-final" style="text-align:center;">
         <img src="photo_final.png" alt="final" style="max-width: min(720px, 92vw); max-height: 52vh; display:block; margin:0 auto 14px; border-radius: 14px;">
         <p style="white-space:pre-line; max-width: min(820px, 92vw); margin: 0 auto 14px;">
-<M4LINA> Co??? JAK CI SIE TO UDAŁO???
-<M4LINA> Ech... Zapomniałem, że jesteśmy klonami. 
-<M4LINA> Wchodź zatem — zasłużyłaś.
+&lt;M4LINA&gt; Co??? JAK CI SIE TO UDAŁO???
+&lt;M4LINA&gt; Ech... Zapomniałem, że jesteśmy klonami. 
+&lt;M4LINA&gt; Wchodź zatem — zasłużyłaś.
         </p>
         <button id="authorBtn" style="padding:10px 14px; border-radius:999px; border:0; cursor:pointer;">Od autora</button>
       </div>
