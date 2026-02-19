@@ -525,23 +525,33 @@ Kocham cię! Do zobaczenia w przyszłych projektach — Twój informatyk &lt;3.
     out.textContent = "";
     await delay(400);
 
-    // 5) admin intro (wolniej) + pauza 7s + quiz
+        // 5) admin intro (wolniej) + pauza 7s + quiz
     appMode = "admin";
     if (!ensureOverlayVisible()) return;
-    
+
     const lines = [
       "<admin> Hmm I see what you are trying to do...",
       "<admin> But I must check if you are worthy...",
     ];
-    content.innerHTML = `
-  <img src="ominous.png" class="admin-ominous">
-`;
-    typeAdminLines(adminContent, lines, 5500, () => {
+
+    // pokaż ominous.png + osobny kontener na tekst (żeby obrazek nie znikał)
+    adminContent.innerHTML = `
+      <div style="text-align:center;">
+        <img src="ominous.png" alt="ominous"
+             style="max-width:min(720px,92vw); max-height:52vh; display:block; margin:0 auto 14px; border-radius:14px;">
+        <div id="adminLines"
+             style="max-width:min(820px,92vw); margin:0 auto; text-align:left; white-space:pre-line;"></div>
+      </div>
+    `;
+
+    const adminLinesEl = document.getElementById("adminLines");
+
+    // 7000 ms pauzy po dopisaniu wszystkiego (jak chciałeś)
+    typeAdminLines(adminLinesEl, lines, 7000, () => {
       quizIndex = 0;
       appMode = "adminQuiz";
       showQuizQuestion();
     });
-  }
 
   // ====== HANDLE COMMAND ======
   const handleCommand = (raw) => {
