@@ -79,7 +79,7 @@ document.addEventListener("click", (e) => {
   });
 
   vid.addEventListener("ended", () => {
-    hugs += 1;
+    
     counterEl.textContent = String(hugs);
     freezeToStart();
     busy = false;
