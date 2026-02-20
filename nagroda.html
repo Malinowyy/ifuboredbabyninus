@@ -9,56 +9,50 @@
   <link rel="icon" type="image/png" href="favicon.png">
 
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      background: #0b0b10;
-      color: #fff;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    }
-    .wrap {
-      min-height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-    .card {
-      width: min(820px, 94vw);
-      text-align: center;
-      padding: 18px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.06);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.12);
-    }
-    .gif {
-      display: block;
-      margin: 0 auto 14px;
-      max-width: min(560px, 90vw);
-      max-height: 55vh;
-      border-radius: 14px;
-    }
-    .text {
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: 0.2px;
-      margin-top: 6px;
-    }
-    .hint {
-      opacity: 0.75;
-      margin-top: 10px;
-      font-size: 13px;
-    }
-    #playBtn {
-      margin-top: 14px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 0;
-      cursor: pointer;
-      font-weight: 650;
-    }
-  </style>
+  .btnRow{
+    display:flex;
+    gap:16px;
+    justify-content:center;
+    align-items:center;
+    margin-top:18px;
+    flex-wrap:wrap;
+  }
+
+  .btn{
+    padding:12px 18px;
+    border-radius:999px;
+    border:0;
+    cursor:pointer;
+    font-weight:700;
+    font-size:18px;
+    line-height:1;
+    background:#ffffff;
+    color:#000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  }
+
+  /* Drugi przycisk ma być „taki sam”, ale np. delikatnie inny */
+  .btn.secondary{
+    background: rgba(255,255,255,0.85);
+    border: 2px solid rgba(255,255,255,0.9);
+  }
+
+  /* Overlay na napis */
+  #flashMsg{
+    position: fixed;
+    inset: 0;
+    display: none;            /* ważne */
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;           /* ważne */
+    background: rgba(0,0,0,0.65);
+    color: #fff;
+    font-size: clamp(34px, 6vw, 72px);
+    font-weight: 800;
+    text-align: center;
+    padding: 24px;
+  }
+</style>
 </head>
 
 <body>
@@ -70,78 +64,54 @@
 
       <div class="text">Gratulacjeee</div>
       <div class="hint"></div>
+<div class="btnRow">
+  <button id="playBtn" class="btn">Włącz muzykę 🎶</button>
+  <button id="stopBtn" class="btn secondary">Wyłącz muzykę 😠</button>
+</div>
 
-      <button id="playBtn" type="button">Włącz muzykę 🎶</button>
-      <button id="stopBtn" type="button">Wyłącz muzykę 😠</button>
+<div id="flashMsg">Jak tak można</div>
     </div>
   </div>
 
   <audio id="partyAudio" src="party.mp3" loop preload="auto"></audio>
 
   <script>
-    const audio = document.getElementById("partyAudio");
-    const btn = document.getElementById("playBtn");
+  const audio = document.getElementById("partyAudio");
+  const playBtn = document.getElementById("playBtn");
+  const stopBtn = document.getElementById("stopBtn");
+  const flashMsg = document.getElementById("flashMsg");
 
-    async function tryPlay() {
-      try {
-        audio.volume = 1.0;
-        await audio.play();
-        // jeśli się udało, chowamy przycisk
-        if (btn) btn.style.display = "none";
-        cleanupAutoStart();
-      } catch (e) {
-        // autoplay zablokowany – zostawiamy przycisk
-      }
+  async function tryPlay() {
+    try {
+      audio.volume = 1.0;
+      await audio.play();
+    } catch (e) {
+      // autoplay może być zablokowany - wtedy klik playBtn zadziała
     }
+  }
 
-    function cleanupAutoStart() {
-      window.removeEventListener("pointerdown", onFirstUserGesture);
-      window.removeEventListener("keydown", onFirstUserGesture);
-    }
-
-    function onFirstUserGesture() {
-      tryPlay();
-    }
-
-    // 1) spróbuj od razu (czasem przejdzie)
-    tryPlay();
-
-    // 2) jak nie przejdzie, odpal przy pierwszym geście usera
-    window.addEventListener("pointerdown", onFirstUserGesture, { once: true });
-    window.addEventListener("keydown", onFirstUserGesture, { once: true });
-
-    // 3) i backup: przycisk
-    if (btn) {
-      btn.addEventListener("click", () => {
-        tryPlay();
-      });
-    }
-    const stopBtn = document.getElementById("stopBtn");
-const shameOverlay = document.getElementById("shameOverlay");
-
-function showShame() {
-  if (!shameOverlay) return;
-
-  shameOverlay.classList.add("show");
-
-  setTimeout(() => {
-    shameOverlay.classList.remove("show");
-  }, 1000); // 1 sekunda
-}
-
-if (stopBtn) {
-  stopBtn.addEventListener("click", () => {
-    // zatrzymaj muzykę
-    if (audio) {
-      audio.pause();
-      audio.currentTime = 0;
-    }
-
-    // pokaż napis
-    showShame();
+  // Klik „Włącz muzykę”
+  playBtn.addEventListener("click", async () => {
+    await tryPlay();
+    playBtn.style.display = "none";
   });
-}
-  </script>
-  <div id="shameOverlay">Jak tak można</div>
+
+  // Klik „Wyłącz muzykę”
+  stopBtn.addEventListener("click", () => {
+    // muzyka MA SIĘ NIE wyłączać (jak pisałeś) ✅
+    // drugi przycisk znika ✅
+    stopBtn.style.display = "none";
+
+    // pokaż napis na 1 sekundę ✅
+    flashMsg.style.display = "flex";
+    setTimeout(() => {
+      flashMsg.style.display = "none";
+    }, 1000);
+  });
+
+  // Spróbuj odpalić od razu (może nie przejść bez interakcji)
+  tryPlay();
+</script>
+  
 </body>
 </html>
