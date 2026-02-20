@@ -116,6 +116,31 @@
         tryPlay();
       });
     }
+    const stopBtn = document.getElementById("stopBtn");
+const shameOverlay = document.getElementById("shameOverlay");
+
+function showShame() {
+  if (!shameOverlay) return;
+
+  shameOverlay.classList.add("show");
+
+  setTimeout(() => {
+    shameOverlay.classList.remove("show");
+  }, 1000); // 1 sekunda
+}
+
+if (stopBtn) {
+  stopBtn.addEventListener("click", () => {
+    // zatrzymaj muzykę
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+
+    // pokaż napis
+    showShame();
+  });
+}
   </script>
   <div id="shameOverlay">Jak tak można</div>
 </body>
