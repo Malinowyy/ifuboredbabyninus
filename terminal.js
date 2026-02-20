@@ -543,7 +543,7 @@ super_nagroda_mega_wow
     const adminLinesEl = document.getElementById("adminLines");
     if (!adminLinesEl) return;
 
-    typeAdminLines(adminLinesEl, lines, 7000, () => {
+    typeAdminLines(adminLinesEl, lines, 4000, () => {
       quizIndex = 0;
       appMode = "adminQuiz";
       showQuizQuestion();
