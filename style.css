@@ -802,4 +802,31 @@ button:active,
   object-fit: cover;
   z-index: 9998;
 }
+#stopBtn {
+  margin-left: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 0;
+  cursor: pointer;
+  font-weight: 650;
+}
 
+#shameOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  z-index: 99999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+#shameOverlay.show {
+  opacity: 1;
+}
