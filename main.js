@@ -44,7 +44,7 @@ document.addEventListener("click", (e) => {
 })();
 
 
-// Free hugs: lokalny hug.mp4, play raz, freeze na pierwszej klatce, licznik (cookies) + reset
+// Free hugs: hug.mp4, restart na KAŻDY klik, licznik od razu (cookies) + reset
 (function () {
   const vid = document.getElementById("hugVid");
   const btn = document.getElementById("hugPlayBtn");
@@ -52,7 +52,7 @@ document.addEventListener("click", (e) => {
   const resetBtn = document.getElementById("hugResetBtn");
   if (!vid || !btn || !counterEl) return;
 
-  const VIDEO_SRC = "hug.mp4"; // lokalny plik w repo
+  const VIDEO_SRC = "hug.mp4";
   const COOKIE_KEY = "hugCount";
   const COOKIE_DAYS = 365;
 
@@ -68,15 +68,9 @@ document.addEventListener("click", (e) => {
     const prefix = name + "=";
     const parts = document.cookie.split(";").map(s => s.trim());
     for (const p of parts) {
-      if (p.startsWith(prefix)) {
-        return decodeURIComponent(p.substring(prefix.length));
-      }
+      if (p.startsWith(prefix)) return decodeURIComponent(p.substring(prefix.length));
     }
     return null;
-  }
-
-  function deleteCookie(name) {
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax`;
   }
 
   function readHugsFromCookie() {
@@ -92,7 +86,6 @@ document.addEventListener("click", (e) => {
   vid.preload = "auto";
   vid.controls = false;
 
-  // Podpięcie źródła (tylko raz)
   if (!vid.querySelector("source")) {
     const src = document.createElement("source");
     src.src = VIDEO_SRC;
@@ -103,8 +96,6 @@ document.addEventListener("click", (e) => {
   let hugs = readHugsFromCookie();
   counterEl.textContent = String(hugs);
 
-  let busy = false;
-
   const freezeToStart = () => {
     vid.pause();
     try { vid.currentTime = 0; } catch (_) {}
@@ -114,40 +105,37 @@ document.addEventListener("click", (e) => {
     freezeToStart();
   });
 
+  // Po end i tak zamrażamy na początku (ale NIE wpływa to na licznik)
   vid.addEventListener("ended", () => {
     freezeToStart();
-    busy = false;
-    btn.disabled = false;
   });
 
   btn.addEventListener("click", async () => {
-    if (busy) return;
-    busy = true;
-    btn.disabled = true;
-
-    // ++ licznik ZA KAŻDYM kliknięciem
+    // 1) licznik od razu (spam = spam)
     hugs += 1;
     counterEl.textContent = String(hugs);
     setCookie(COOKIE_KEY, hugs, COOKIE_DAYS);
 
+    // 2) reset i start filmu od nowa na KAŻDY klik
     try {
       vid.pause();
+
+      // na niektórych przeglądarkach bezpieczniej: mały "reflow" resetu
+      // ale zwykle wystarczy:
       vid.currentTime = 0;
+
       await vid.play();
     } catch (_) {
-      busy = false;
-      btn.disabled = false;
+      // jeśli autoplay/play failnie, licznik i tak zostaje (bo klik jest gestem, powinno przejść)
     }
   });
 
-  // Reset przyciskiem (jeśli istnieje)
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
       hugs = 0;
       counterEl.textContent = "0";
       setCookie(COOKIE_KEY, 0, COOKIE_DAYS);
-      // ewentualnie zamiast setCookie możesz całkiem usunąć:
-      // deleteCookie(COOKIE_KEY);
+      freezeToStart();
     });
   }
 
