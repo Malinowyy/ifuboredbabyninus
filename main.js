@@ -17,15 +17,14 @@ document.addEventListener("click", (e) => {
 
   const pad2 = (n) => String(n).padStart(2, "0");
 
-  // --- cookies helpers (lokalne dla zegara) ---
+  // --- cookies ---
   const COOKIE_FMT = "timeFormat";
   const COOKIE_DAYS = 365;
 
   function setCookie(name, value, days) {
     const d = new Date();
     d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
-    const expires = "expires=" + d.toUTCString();
-    document.cookie = `${name}=${encodeURIComponent(String(value))}; ${expires}; path=/; SameSite=Lax`;
+    document.cookie = `${name}=${encodeURIComponent(String(value))}; expires=${d.toUTCString()}; path=/; SameSite=Lax`;
   }
 
   function getCookie(name) {
@@ -37,7 +36,7 @@ document.addEventListener("click", (e) => {
     return null;
   }
 
-  // format: seconds|minutes|hours|days|weeks|months|years
+  // seconds|minutes|hours|days|weeks|months|years
   let fmt = getCookie(COOKIE_FMT) || "days";
 
   const fmtBtns = Array.from(document.querySelectorAll("[data-timefmt]"));
@@ -54,99 +53,122 @@ document.addEventListener("click", (e) => {
       fmt = b.getAttribute("data-timefmt") || "days";
       setCookie(COOKIE_FMT, fmt, COOKIE_DAYS);
       applyBtnState();
-      render(); // od razu odśwież
+      render();
     });
   }
   applyBtnState();
 
-  // miesiące / lata liczymy „kalendarzowo”, nie z przybliżeń
-  function diffCalendarMonths(a, b) {
-    // zwraca liczbę pełnych miesięcy między a -> b (może być ujemna)
-    const sign = b >= a ? 1 : -1;
-    const from = sign === 1 ? a : b;
-    const to = sign === 1 ? b : a;
+  // Liczymy lata+miesiące kalendarzowo (pełne jednostki), a resztę w ms.
+  function breakdownCalendar(from, to) {
+    // zakładamy from <= to
+    let cursor = new Date(from.getTime());
 
-    let months = (to.getFullYear() - from.getFullYear()) * 12 + (to.getMonth() - from.getMonth());
+    // full years
+    let years = to.getFullYear() - cursor.getFullYear();
+    let test = new Date(cursor.getTime());
+    test.setFullYear(test.getFullYear() + years);
+    if (test > to) years -= 1;
+    cursor.setFullYear(cursor.getFullYear() + years);
 
-    // jeśli dzień-godzina w "to" jest wcześniejsza niż w "from", to miesiąc nie jest pełny
-    const anchor = new Date(from.getTime());
-    anchor.setMonth(anchor.getMonth() + months);
+    // full months
+    let months = (to.getFullYear() - cursor.getFullYear()) * 12 + (to.getMonth() - cursor.getMonth());
+    test = new Date(cursor.getTime());
+    test.setMonth(test.getMonth() + months);
+    if (test > to) months -= 1;
+    cursor.setMonth(cursor.getMonth() + months);
 
-    if (to < anchor) months -= 1;
+    // remaining ms -> days/h/m/s
+    let remMs = to.getTime() - cursor.getTime();
+    const totalSeconds = Math.floor(remMs / 1000);
 
-    return months * sign;
-  }
+    const seconds = totalSeconds % 60;
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    const minutes = totalMinutes % 60;
+    const totalHours = Math.floor(totalMinutes / 60);
+    const hours = totalHours % 24;
+    const days = Math.floor(totalHours / 24);
 
-  function diffCalendarYears(a, b) {
-    const sign = b >= a ? 1 : -1;
-    const from = sign === 1 ? a : b;
-    const to = sign === 1 ? b : a;
-
-    let years = to.getFullYear() - from.getFullYear();
-
-    const anchor = new Date(from.getTime());
-    anchor.setFullYear(anchor.getFullYear() + years);
-
-    if (to < anchor) years -= 1;
-
-    return years * sign;
+    return { years, months, days, hours, minutes, seconds };
   }
 
   function render() {
     const now = new Date();
-    let diffMs = now.getTime() - start.getTime();
 
-    const isFuture = diffMs < 0;
-    diffMs = Math.abs(diffMs);
+    const isFuture = now.getTime() < start.getTime();
+    const a = isFuture ? now : start;
+    const b = isFuture ? start : now;
 
+    const prefix = isFuture ? "Do tej chwili pozostało: " : "Minęło: ";
+
+    // Zawsze mamy pełny rozkład kalendarzowy:
+    const cal = breakdownCalendar(a, b);
+
+    // Do tygodni potrzebujemy też totalDays z ms (nie kalendarzowe), bo tygodnie to „7 dni”
+    const diffMs = Math.abs(b.getTime() - a.getTime());
     const totalSeconds = Math.floor(diffMs / 1000);
     const totalMinutes = Math.floor(totalSeconds / 60);
     const totalHours = Math.floor(totalMinutes / 60);
     const totalDays = Math.floor(totalHours / 24);
 
-    const seconds = totalSeconds % 60;
-    const minutes = totalMinutes % 60;
-    const hours = totalHours % 24;
+    const hhmmss = `${pad2(cal.hours)}:${pad2(cal.minutes)}:${pad2(cal.seconds)}`;
 
-    const prefix = isFuture ? "Do tej chwili pozostało: " : "Minęło: ";
-
-    // „wartość” zależnie od formatu
     if (fmt === "seconds") {
+      // tylko sekundy (total)
       timeEl.textContent = `${prefix}${totalSeconds} sekund`;
       return;
     }
+
     if (fmt === "minutes") {
-      timeEl.textContent = `${prefix}${totalMinutes} minut`;
-      return;
-    }
-    if (fmt === "hours") {
-      timeEl.textContent = `${prefix}${totalHours} godzin`;
-      return;
-    }
-    if (fmt === "weeks") {
-      const weeks = Math.floor(totalDays / 7);
-      timeEl.textContent = `${prefix}${weeks} tygodni`;
-      return;
-    }
-    if (fmt === "months") {
-      const months = Math.abs(diffCalendarMonths(start, now));
-      timeEl.textContent = `${prefix}${months} miesięcy`;
-      return;
-    }
-    if (fmt === "years") {
-      const years = Math.abs(diffCalendarYears(start, now));
-      timeEl.textContent = `${prefix}${years} lat`;
+      // minuty + sekundy
+      const m = totalMinutes;
+      const s = totalSeconds % 60;
+      timeEl.textContent = `${prefix}${m} minut ${s} sekund`;
       return;
     }
 
-    // default / "days": zostawiamy Twój ładny format z HH:MM:SS
-    timeEl.textContent = `${prefix}${totalDays} dni ${pad2(hours)}:${pad2(minutes)}:${pad2(seconds)}`;
+    if (fmt === "hours") {
+      // godziny + minuty + sekundy
+      const h = totalHours;
+      const m = totalMinutes % 60;
+      const s = totalSeconds % 60;
+      timeEl.textContent = `${prefix}${h} godzin ${m} minut ${s} sekund`;
+      return;
+    }
+
+    if (fmt === "days") {
+      // dni + hh:mm:ss
+      timeEl.textContent = `${prefix}${totalDays} dni ${hhmmss}`;
+      return;
+    }
+
+    if (fmt === "weeks") {
+      // tygodnie + dni + hh:mm:ss
+      const weeks = Math.floor(totalDays / 7);
+      const daysLeft = totalDays % 7;
+      timeEl.textContent = `${prefix}${weeks} tygodni ${daysLeft} dni ${hhmmss}`;
+      return;
+    }
+
+    if (fmt === "months") {
+      // miesiące (kalendarzowo) + dni + hh:mm:ss (bez tygodni)
+      const totalMonths = cal.years * 12 + cal.months;
+      timeEl.textContent = `${prefix}${totalMonths} miesięcy ${cal.days} dni ${hhmmss}`;
+      return;
+    }
+
+    if (fmt === "years") {
+      // lata + miesiące + dni + hh:mm:ss
+      timeEl.textContent = `${prefix}${cal.years} lat ${cal.months} miesięcy ${cal.days} dni ${hhmmss}`;
+      return;
+    }
+
+    // fallback
+    timeEl.textContent = `${prefix}${totalDays} dni ${hhmmss}`;
   }
 
   render();
   window.setInterval(render, 250);
 })();
-
 
 // Free hugs: hug.mp4, restart na KAŻDY klik, licznik od razu (cookies) + reset
 (function () {
