@@ -830,3 +830,10 @@ button:active,
 #shameOverlay.show {
   opacity: 1;
 }
+#hugResetBtn{
+  display: inline-flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: #000 !important;
+  background: #fff !important;
+  border: 2px solid rgba(0,0,0,0.15) !
