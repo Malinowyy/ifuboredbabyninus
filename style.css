@@ -837,3 +837,18 @@ button:active,
   color: #000 !important;
   background: #fff !important;
   border: 2px solid rgba(0,0,0,0.15) !
+/* ZEGAR: przyciski formatu pod sercem */
+.heart-time__formats .btn {
+  background: rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.14);
+  color: #111;
+}
+
+.heart-time__formats .btn:hover {
+  background: rgba(0,0,0,0.10);
+}
+
+.heart-time__formats .btn.btn--primary {
+  /* aktywny format — zostawiamy Twój primary */
+  border-color: transparent;
+}
